@@ -55,14 +55,14 @@ const D3TrendChart = ({ data }) => {
     
     svg.attr("width", width).attr("height", height);
 
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
     const x = d3.scaleTime()
-      .domain(d3.extent(data, d => new Date(d.date)))
+      .domain(d3.extent(data, d => new Date(d.timestamp)))
       .range([0, innerWidth]);
 
     const y = d3.scaleLinear()
@@ -82,9 +82,10 @@ const D3TrendChart = ({ data }) => {
       .selectAll("line").style("stroke", "#1A2C42").style("stroke-dasharray", "2,2");
 
     // Axes
+    const xAxisFormat = d3.timeFormat("%H:%M");
     g.append("g")
       .attr("transform", `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat("%m/%d")))
+      .call(d3.axisBottom(x).ticks(5).tickFormat(xAxisFormat))
       .selectAll("text").style("fill", "#6B7280").style("font-family", "monospace").style("font-size", "9px");
       
     g.append("g")
@@ -93,39 +94,45 @@ const D3TrendChart = ({ data }) => {
       
     g.selectAll(".domain").style("stroke", "#1A2C42");
 
-    // Line
-    const line = d3.line()
-      .x(d => x(new Date(d.date)))
-      .y(d => y(d.count))
-      .curve(d3.curveMonotoneX);
+    // Line (only draw if > 1 point)
+    if (data.length > 1) {
+      const line = d3.line()
+        .x(d => x(new Date(d.timestamp)))
+        .y(d => y(d.count))
+        .curve(d3.curveMonotoneX);
 
-    g.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "#00F0FF")
-      .attr("stroke-width", 2)
-      .attr("d", line)
-      .attr("stroke-dasharray", function() { return this.getTotalLength(); })
-      .attr("stroke-dashoffset", function() { return this.getTotalLength(); })
-      .transition()
-      .duration(1000)
-      .attr("stroke-dashoffset", 0);
+      const path = g.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "#00F0FF")
+        .attr("stroke-width", 2)
+        .attr("d", line);
 
-    // Area
-    const area = d3.area()
-      .x(d => x(new Date(d.date)))
-      .y0(innerHeight)
-      .y1(d => y(d.count))
-      .curve(d3.curveMonotoneX);
+      const totalLength = path.node().getTotalLength();
 
-    g.append("path")
-      .datum(data)
-      .attr("fill", "url(#area-gradient)")
-      .attr("d", area)
-      .style("opacity", 0)
-      .transition()
-      .duration(1000)
-      .style("opacity", 1);
+      path
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(1000)
+        .attr("stroke-dashoffset", 0);
+
+      // Area
+      const area = d3.area()
+        .x(d => x(new Date(d.timestamp)))
+        .y0(innerHeight)
+        .y1(d => y(d.count))
+        .curve(d3.curveMonotoneX);
+
+      g.append("path")
+        .datum(data)
+        .attr("fill", "url(#area-gradient)")
+        .attr("d", area)
+        .style("opacity", 0)
+        .transition()
+        .duration(1000)
+        .style("opacity", 1);
+    }
 
     // Gradient
     const defs = svg.append("defs");
@@ -138,25 +145,41 @@ const D3TrendChart = ({ data }) => {
 
     // Points
     const tooltip = d3.select("body").append("div")
-      .attr("class", "absolute hidden bg-[#050B14] border border-[#00F0FF]/50 p-2 text-xs font-mono text-white pointer-events-none z-50 shadow-[0_0_10px_rgba(0,240,255,0.2)]")
-      .style("border-radius", "4px");
+      .attr("class", "absolute hidden bg-[#050B14] border border-[#00F0FF]/50 p-3 text-xs font-mono text-white pointer-events-none z-50 shadow-[0_0_15px_rgba(0,240,255,0.3)]")
+      .style("border-radius", "4px")
+      .style("min-width", "180px");
 
     g.selectAll(".dot")
       .data(data)
       .enter().append("circle")
       .attr("class", "dot")
-      .attr("cx", d => x(new Date(d.date)))
+      .attr("cx", d => x(new Date(d.timestamp)))
       .attr("cy", d => y(d.count))
       .attr("r", 4)
       .attr("fill", "#050B14")
       .attr("stroke", "#00F0FF")
       .attr("stroke-width", 2)
+      .style("cursor", "crosshair")
       .on("mouseover", (event, d) => {
         d3.select(event.currentTarget).attr("r", 6).attr("fill", "#00F0FF");
+        
+        const timeStr = new Date(d.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const confStr = d.topConfidence ? `${(d.topConfidence * 100).toFixed(1)}%` : 'N/A';
+        const riskColor = d.riskLevel === 'CRITICAL' ? '#EF4444' : 
+                          d.riskLevel === 'HIGH' ? '#F97316' : 
+                          d.riskLevel === 'MEDIUM' ? '#F59E0B' : '#22C55E';
+                          
         tooltip.classed("hidden", false)
-          .html(`DATE: ${d.date}<br/>DETECTIONS: ${d.count}<br/>SCANS: ${d.scanCount}`)
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 28) + "px");
+          .html(`
+            <div class="font-bold text-[#00F0FF] border-b border-[#1A2C42] pb-1 mb-2">${d.scan_id}</div>
+            <div class="flex justify-between mb-1"><span class="text-gray-500">TIME:</span> <span>${timeStr}</span></div>
+            <div class="flex justify-between mb-1"><span class="text-gray-500">DETECTS:</span> <span>${d.count}</span></div>
+            <div class="flex justify-between mb-1"><span class="text-gray-500">TARGET:</span> <span>${d.topClass}</span></div>
+            <div class="flex justify-between mb-1"><span class="text-gray-500">CONF:</span> <span>${confStr}</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">RISK:</span> <span style="color: ${riskColor}">${d.riskLevel}</span></div>
+          `)
+          .style("left", (event.pageX + 15) + "px")
+          .style("top", (event.pageY - 40) + "px");
       })
       .on("mouseout", (event) => {
         d3.select(event.currentTarget).attr("r", 4).attr("fill", "#050B14");
@@ -211,11 +234,11 @@ export default function Analytics() {
     'CRITICAL': 0
   };
 
-  // Group detections by date (YYYY-MM-DD)
-  const trendMap = {};
-
   let totalRiskScore = 0;
   let scoredScans = 0;
+  
+  // Trend Data: Map each scan directly to a point
+  const trendData = [];
 
   history.forEach(scan => {
     const dets = scan.detections || [];
@@ -239,24 +262,26 @@ export default function Analytics() {
       if (classDistribution[c] !== undefined) classDistribution[c]++;
     });
 
-    // Trends
+    // Trend mapping
     if (scan.created_at) {
-      const dateKey = scan.created_at.split('T')[0];
-      if (!trendMap[dateKey]) trendMap[dateKey] = { count: 0, scanCount: 0 };
-      trendMap[dateKey].count += dets.length;
-      trendMap[dateKey].scanCount += 1;
+      const topDet = dets.length > 0 ? [...dets].sort((a,b)=>b.confidence - a.confidence)[0] : null;
+      trendData.push({
+        scan_id: scan.scan_id,
+        timestamp: scan.created_at,
+        count: dets.length,
+        riskLevel: rLvl,
+        topClass: topDet ? topDet.class_name.toUpperCase() : 'NONE',
+        topConfidence: topDet ? topDet.confidence : null
+      });
     }
   });
+
+  // Sort chronological
+  trendData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
   const avgTargets = totalScans > 0 ? (totalTargets / totalScans).toFixed(1) : '0.0';
   const avgRisk = scoredScans > 0 ? (totalRiskScore / scoredScans).toFixed(1) : '0.0';
   const highRiskPct = totalScans > 0 ? Math.round((highRiskScans / totalScans) * 100) : 0;
-
-  const trendData = Object.keys(trendMap).sort().map(k => ({
-    date: k,
-    count: trendMap[k].count,
-    scanCount: trendMap[k].scanCount
-  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -383,11 +408,11 @@ export default function Analytics() {
               </div>
             </div>
             <div className="flex-1 w-full relative min-h-[200px]">
-              {trendData.length > 1 ? (
+              {trendData.length > 0 ? (
                 <D3TrendChart data={trendData} />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center border border-dashed border-[#1A2C42] rounded m-2 bg-[#050B14]">
-                  <span className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">INSUFFICIENT HISTORICAL SCANS FOR TREND ANALYSIS</span>
+                  <span className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">NO HISTORICAL TELEMETRY</span>
                 </div>
               )}
             </div>
