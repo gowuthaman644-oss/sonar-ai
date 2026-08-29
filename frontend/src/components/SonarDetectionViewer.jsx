@@ -28,6 +28,7 @@ export default function SonarDetectionViewer({ imageUrl, detections = [], active
             src={imageUrl} 
             alt="Sonar Analysis" 
             onLoad={handleImageLoad}
+            onError={(e) => console.error("IMAGE LOAD FAILED", e.currentTarget.src)}
             className={`max-w-full max-h-[75vh] object-contain transition-opacity duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         ) : (

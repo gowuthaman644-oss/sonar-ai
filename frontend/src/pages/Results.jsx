@@ -122,7 +122,7 @@ export default function Results() {
         <motion.div variants={itemVariants} className="lg:col-span-8 flex flex-col min-h-[50vh]">
           <GlassPanel className="p-1 flex-1 relative flex overflow-hidden">
             <SonarDetectionViewer 
-              imageUrl={imagePreview || (result?.scan_id ? `/api/history/${result.scan_id}/image` : null)} 
+              imageUrl={result?.scan_id ? `/api/history/${result.scan_id}/image` : imagePreview} 
               detections={detections}
               activeIndex={activeDetectionIdx}
               onHover={setActiveDetectionIdx}
