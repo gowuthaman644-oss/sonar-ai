@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getHistory } from '../services/api';
-import { CheckCircle, AlertTriangle, Target, ArrowLeft, Download, PlusSquare, Activity } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Target, ArrowLeft, Download, PlusSquare, Activity, Shield, Crosshair } from 'lucide-react';
 import SonarDetectionViewer from '../components/SonarDetectionViewer';
+import { GlassPanel, GlowButton, SectionHeader, RiskBadge } from '../components/ui';
 
 export default function Results() {
   const { scanId } = useParams();
@@ -17,9 +19,6 @@ export default function Results() {
   const [activeDetectionIdx, setActiveDetectionIdx] = useState(null);
 
   useEffect(() => {
-    // Note: if user refreshes on this page without location state, imagePreview will be null.
-    // In a real app we'd fetch the saved image URL from backend, but the backend doesn't currently serve the file statics.
-    // So if no image preview, it degrades gracefully to showing the bounding boxes on a black bg, but ideally they come from NewScan.
     if (!result && scanId) {
       async function fetchResult() {
         try {
@@ -43,21 +42,23 @@ export default function Results() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-        <div className="w-12 h-12 border-2 border-sonar-cyan border-t-transparent rounded-full animate-spin"></div>
-        <div className="font-mono tracking-widest text-sonar-cyan animate-pulse">LOADING ANALYSIS...</div>
+        <div className="w-12 h-12 border-2 border-[#00F0FF] border-t-transparent rounded-full animate-spin" />
+        <div className="font-mono tracking-[0.2em] text-[#00F0FF] animate-pulse text-xs">ACCESSING SECURE DATA...</div>
       </div>
     );
   }
 
   if (error || !result) {
     return (
-      <div className="glass-panel p-12 text-center text-gray-400 font-mono tracking-widest border-risk-high/30 bg-risk-high/5">
-        <AlertTriangle className="w-12 h-12 mx-auto mb-4 text-risk-high" />
-        <h2 className="text-xl font-bold text-white mb-2">ANALYSIS FAILED</h2>
-        <p className="text-sm mb-6">{error || "Unable to process sonar image."}</p>
-        <button onClick={() => navigate('/scan')} className="sonar-button text-xs px-6 py-2">
-          TRY AGAIN
-        </button>
+      <div className="max-w-xl mx-auto mt-20">
+        <GlassPanel className="p-12 text-center border-red-500/50 bg-red-500/5">
+          <AlertTriangle className="w-16 h-16 mx-auto mb-6 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+          <h2 className="text-xl font-bold text-white mb-2 tracking-[0.2em]">ACCESS DENIED / ERROR</h2>
+          <p className="text-xs font-mono text-gray-400 mb-8 uppercase tracking-widest">{error || "Unable to process sonar image."}</p>
+          <GlowButton onClick={() => navigate('/scan')} className="w-full">
+            RETURN TO ACQUISITION
+          </GlowButton>
+        </GlassPanel>
       </div>
     );
   }
@@ -65,169 +66,165 @@ export default function Results() {
   const riskLevel = result.analysis?.risk_level || result.risk_level || 'LOW';
   const riskScore = result.analysis?.risk_score || result.risk_score || 0;
   
-  let riskColor = 'text-risk-low';
-  let riskBorder = 'border-risk-low';
-  let riskBg = 'bg-risk-low';
-  if (riskLevel === 'HIGH') {
-    riskColor = 'text-risk-high';
-    riskBorder = 'border-risk-high';
-    riskBg = 'bg-risk-high';
-  } else if (riskLevel === 'MEDIUM') {
-    riskColor = 'text-risk-medium';
-    riskBorder = 'border-risk-medium';
-    riskBg = 'bg-risk-medium';
-  }
+  const getRiskColor = (level) => {
+    switch (level?.toUpperCase()) {
+      case 'CRITICAL': return 'text-red-500';
+      case 'HIGH': return 'text-orange-500';
+      case 'MEDIUM': return 'text-amber-500';
+      case 'LOW': return 'text-emerald-500';
+      default: return 'text-emerald-500';
+    }
+  };
 
   const detections = result.detections || [];
   const totalDetections = detections.length;
 
+  const pageVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.1 } }
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 animate-in fade-in duration-700">
+    <motion.div 
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      className="max-w-[1600px] mx-auto h-full flex flex-col"
+    >
       
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-sonar-border pb-6 mb-6">
+      <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A2C42] pb-4 mb-6">
         <div>
-          <button onClick={() => navigate('/scan')} className="text-gray-400 hover:text-white flex items-center gap-2 text-xs font-mono tracking-widest mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> NEW SCAN
+          <button onClick={() => navigate('/scan')} className="text-[#00F0FF]/70 hover:text-[#00F0FF] flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] mb-4 transition-colors uppercase">
+            <ArrowLeft className="w-3 h-3" /> INITIALIZE NEW SCAN
           </button>
-          <div className="text-xs font-mono tracking-widest text-sonar-cyan uppercase mb-1">
-            SONAR-AI / ANALYSIS RESULT
-          </div>
           <div className="flex items-center gap-4">
-            <h1 className="text-3xl font-bold tracking-[0.2em] uppercase text-white">
-              {totalDetections === 0 ? "NO OBJECTS DETECTED" : "ANALYSIS COMPLETE"}
+            <h1 className="text-2xl font-bold tracking-[0.2em] uppercase text-white shadow-black drop-shadow-md">
+              {totalDetections === 0 ? "NO ANOMALIES DETECTED" : "INTELLIGENCE REPORT"}
             </h1>
           </div>
         </div>
         
-        <div className="mt-4 md:mt-0 flex flex-col md:items-end font-mono text-xs text-gray-400 tracking-widest">
-          <div className="mb-1">SCAN ID: <span className="text-white">{result.scan_id}</span></div>
-          <div>STATUS: <span className="text-sonar-cyan">SAVED TO DATABASE</span></div>
+        <div className="mt-4 md:mt-0 flex flex-col md:items-end font-mono text-[9px] tracking-[0.2em] uppercase">
+          <div className="text-gray-500 mb-1">RECORD ID // <span className="text-white font-bold">{result.scan_id}</span></div>
+          <div className="text-gray-500">DATABASE // <span className="text-emerald-400 font-bold">SYNCHRONIZED</span></div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
         
         {/* LEFT SIDE: Image Viewer */}
-        <div className="lg:col-span-8 space-y-6 flex flex-col h-full">
-          
-          {/* Main Visualizer */}
-          <div className="glass-panel p-2 flex-1 flex flex-col min-h-[500px] relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <motion.div variants={itemVariants} className="lg:col-span-8 flex flex-col min-h-[50vh]">
+          <GlassPanel className="p-1 flex-1 relative flex overflow-hidden">
             <SonarDetectionViewer 
               imageUrl={imagePreview} 
               detections={detections}
               activeIndex={activeDetectionIdx}
               onHover={setActiveDetectionIdx}
             />
-            
-            {/* Small status overlay */}
-            <div className="absolute bottom-6 right-6 px-3 py-1 bg-black/60 border border-sonar-border text-[10px] font-mono tracking-widest text-sonar-cyan backdrop-blur-md rounded flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-sonar-cyan animate-pulse"></span>
-              YOLO DETECTION OVERLAY
-            </div>
-          </div>
-          
-        </div>
+          </GlassPanel>
+        </motion.div>
 
         {/* RIGHT SIDE: Analysis Details */}
-        <div className="lg:col-span-4 space-y-6 flex flex-col">
+        <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col gap-6 overflow-y-auto pr-2 pb-6">
           
-          <div className="glass-panel p-6 border-t-4" style={{ borderTopColor: riskLevel === 'HIGH' ? '#EF4444' : riskLevel === 'MEDIUM' ? '#F59E0B' : '#10B981' }}>
-            <h3 className="text-xs font-mono tracking-widest text-gray-500 mb-6 uppercase flex items-center gap-2">
-              <Activity className="w-4 h-4" /> ANALYSIS SUMMARY
-            </h3>
+          <GlassPanel className="p-6 border-t-2" style={{ borderTopColor: getRiskColor(riskLevel).replace('text-', 'var(--') + ')' }}>
+            <SectionHeader icon={Activity} title="THREAT ASSESSMENT" />
             
-            <div className="flex justify-between items-start mb-6 border-b border-sonar-border/50 pb-6">
+            <div className="flex justify-between items-start mb-6 pb-6 border-b border-[#1A2C42]">
               <div>
-                <div className="text-[10px] text-gray-500 font-mono tracking-widest uppercase mb-1">Risk Assessment</div>
-                <div className={`text-3xl font-bold tracking-widest uppercase flex items-center gap-2 ${riskColor}`}>
-                  {riskLevel === 'HIGH' ? <AlertTriangle className="w-6 h-6" /> : <CheckCircle className="w-6 h-6" />}
+                <div className="text-[9px] text-gray-500 font-mono tracking-[0.2em] uppercase mb-2">Classification</div>
+                <div className={`text-2xl font-bold tracking-[0.2em] uppercase flex items-center gap-3 ${getRiskColor(riskLevel)}`}>
+                  {riskLevel === 'HIGH' || riskLevel === 'CRITICAL' ? <AlertTriangle className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
                   {riskLevel}
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-[10px] text-gray-500 font-mono tracking-widest uppercase mb-1">Risk Score</div>
-                <div className={`text-3xl font-light font-mono ${riskColor}`}>
-                  {riskScore} <span className="text-sm text-gray-600">/ 100</span>
+                <div className="text-[9px] text-gray-500 font-mono tracking-[0.2em] uppercase mb-2">Confidence Score</div>
+                <div className={`text-2xl font-light font-mono ${getRiskColor(riskLevel)}`}>
+                  {riskScore.toFixed(0)} <span className="text-xs text-gray-600">/ 100</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">
-                Detected Objects ({totalDetections})
-              </h4>
+              <div className="flex justify-between items-center">
+                <h4 className="text-[10px] font-mono tracking-[0.2em] text-gray-400 uppercase">
+                  DETECTED ENTITIES
+                </h4>
+                <span className="text-[10px] font-mono font-bold text-[#00F0FF]">{totalDetections}</span>
+              </div>
               
               {totalDetections === 0 ? (
-                <div className="p-4 border border-dashed border-sonar-border text-center text-sm font-mono text-gray-500 rounded">
-                  NO ABNORMALITIES FOUND
+                <div className="p-6 border border-dashed border-[#1A2C42] text-center bg-black/20">
+                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em]">CLEAR SEABED CONSTRAINTS</span>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2 max-h-[30vh] overflow-y-auto pr-2 custom-scrollbar">
                   {detections.map((det, idx) => (
-                    <div 
+                    <motion.div 
                       key={idx} 
-                      className={`p-3 border rounded transition-all duration-200 cursor-pointer flex justify-between items-center
-                        ${activeDetectionIdx === idx ? 'border-sonar-cyan bg-sonar-cyan/10' : 'border-sonar-border hover:border-sonar-cyan/50 hover:bg-white/5'}
+                      whileHover={{ scale: 1.02 }}
+                      className={`p-3 border rounded transition-all duration-200 cursor-crosshair flex justify-between items-center group
+                        ${activeDetectionIdx === idx ? 'border-[#00F0FF] bg-[#00F0FF]/10' : 'border-[#1A2C42] bg-black/40 hover:border-[#00F0FF]/50'}
                       `}
                       onMouseEnter={() => setActiveDetectionIdx(idx)}
                       onMouseLeave={() => setActiveDetectionIdx(null)}
                     >
                       <div className="flex items-center gap-3">
-                        <Target className={`w-4 h-4 ${activeDetectionIdx === idx ? 'text-sonar-cyan' : 'text-gray-400'}`} />
+                        <Crosshair className={`w-4 h-4 transition-colors ${activeDetectionIdx === idx ? 'text-[#00F0FF]' : 'text-gray-500'}`} />
                         <div>
-                          <div className={`text-sm font-bold tracking-widest uppercase ${activeDetectionIdx === idx ? 'text-white' : 'text-gray-300'}`}>
+                          <div className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors ${activeDetectionIdx === idx ? 'text-white' : 'text-gray-300'}`}>
                             {det.class_name}
-                          </div>
-                          <div className="text-[10px] font-mono tracking-widest text-gray-500 uppercase mt-0.5">
-                            Detection Confidence
                           </div>
                         </div>
                       </div>
-                      <div className={`text-lg font-mono font-light ${activeDetectionIdx === idx ? 'text-sonar-cyan' : 'text-gray-400'}`}>
+                      <div className={`text-sm font-mono font-light transition-colors ${activeDetectionIdx === idx ? 'text-[#00F0FF]' : 'text-gray-500'}`}>
                         {(det.confidence * 100).toFixed(1)}%
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
             </div>
-          </div>
+          </GlassPanel>
           
-          {/* Scan Information Meta Panel */}
-          <div className="glass-panel p-6 bg-black/40">
-            <h3 className="text-xs font-mono tracking-widest text-gray-500 mb-4 uppercase">
-              SCAN INFORMATION
+          <GlassPanel className="p-6 bg-[#02050A]">
+            <h3 className="text-[10px] font-mono tracking-[0.2em] text-gray-500 mb-4 uppercase">
+              METADATA
             </h3>
-            <div className="space-y-3 text-xs font-mono">
-              <div className="flex justify-between border-b border-sonar-border/50 pb-2">
-                <span className="text-gray-500">Scan ID</span>
-                <span className="text-gray-300">{result.scan_id}</span>
-              </div>
-              <div className="flex justify-between border-b border-sonar-border/50 pb-2">
-                <span className="text-gray-500">Date/Time</span>
+            <div className="space-y-3 text-[10px] font-mono tracking-[0.1em] uppercase">
+              <div className="flex justify-between border-b border-[#1A2C42] pb-2">
+                <span className="text-gray-600">Timestamp</span>
                 <span className="text-gray-300">{new Date(result.created_at || Date.now()).toLocaleString()}</span>
               </div>
+              <div className="flex justify-between border-b border-[#1A2C42] pb-2">
+                <span className="text-gray-600">Vision Core</span>
+                <span className="text-[#00F0FF]">YOLO11n-C</span>
+              </div>
               <div className="flex justify-between pb-1">
-                <span className="text-gray-500">AI Model</span>
-                <span className="text-sonar-cyan">YOLO11n (CUDA)</span>
+                <span className="text-gray-600">Resolution</span>
+                <span className="text-gray-300">640x640 Native</span>
               </div>
             </div>
+          </GlassPanel>
+
+          <div className="flex gap-3 mt-auto">
+            <GlowButton onClick={() => navigate('/history')} className="flex-1 py-3 text-[9px]">
+              ARCHIVE
+            </GlowButton>
+            <GlowButton onClick={() => navigate('/reports')} className="flex-1 py-3 text-[9px]">
+              <Download className="w-3 h-3 mr-2" /> EXPORT
+            </GlowButton>
           </div>
 
-          <div className="flex gap-4 mt-auto pt-4">
-            <button onClick={() => navigate('/history')} className="flex-1 sonar-button text-[10px] py-4 border-gray-600 text-gray-400 hover:text-white">
-              VIEW HISTORY
-            </button>
-            <button onClick={() => navigate('/reports')} className="flex-1 sonar-button text-[10px] py-4">
-              <div className="flex items-center justify-center gap-2">
-                <Download className="w-4 h-4" /> REPORT
-              </div>
-            </button>
-          </div>
-
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

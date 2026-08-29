@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UploadCloud, FileImage, X, Activity, Cpu, CheckCircle, AlertTriangle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { UploadCloud, FileImage, X, Activity, Cpu, CheckCircle, AlertTriangle, Crosshair, Radar } from 'lucide-react';
 import { analyzeSonar } from '../services/api';
 import { toast } from 'sonner';
+import { GlassPanel, GlowButton, SectionHeader } from '../components/ui';
 
 export default function NewScan() {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ export default function NewScan() {
   const [dragActive, setDragActive] = useState(false);
   
   const [processing, setProcessing] = useState(false);
-  const [processState, setProcessState] = useState(0); // 0=none, 1=upload, 2=yolo, 3=risk, 4=done
+  const [processState, setProcessState] = useState(0); 
   const [error, setError] = useState(null);
 
   const handleDrag = (e) => {
@@ -48,13 +50,11 @@ export default function NewScan() {
     const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     
     if (!validTypes.includes(selectedFile.type)) {
-      setError('Please upload a valid JPG or PNG image.');
+      setError('INVALID DATATYPE. AWAITING JPG/PNG.');
       return;
     }
     
     setFile(selectedFile);
-    
-    // Create preview URL
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
   };
@@ -75,26 +75,20 @@ export default function NewScan() {
     setError(null);
     
     try {
-      // Simulate step 1 visually
-      setProcessState(1); // Uploading
-      
-      // We start the actual API call
+      setProcessState(1); 
       const analysisPromise = analyzeSonar(file);
       
-      // Simulate intermediate states for visual effect while waiting for API
-      setTimeout(() => setProcessState(2), 800); // YOLO
-      setTimeout(() => setProcessState(3), 1600); // Risk
+      setTimeout(() => setProcessState(2), 800); 
+      setTimeout(() => setProcessState(3), 1600); 
       
       const result = await analysisPromise;
       
-      setProcessState(4); // Done
-      
+      setProcessState(4); 
       toast.success('SCAN SAVED TO DATABASE');
       
-      // Short delay so user sees "Done" before navigating
       setTimeout(() => {
         navigate(`/results/${result.scan_id}`, { state: { result, imagePreview: preview } });
-      }, 500);
+      }, 800);
       
     } catch (err) {
       console.error(err);
@@ -104,138 +98,177 @@ export default function NewScan() {
     }
   };
 
+  const pageVariants = {
+    initial: { opacity: 0, scale: 0.98 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
+    exit: { opacity: 0, scale: 1.02 }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-500">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-widest uppercase text-white mb-2">New Sonar Analysis</h1>
-        <p className="text-gray-400 font-mono text-sm tracking-wide">
-          Upload a side-scan sonar image for AI-powered object detection and risk assessment.
+    <motion.div 
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="max-w-4xl mx-auto space-y-6 h-full flex flex-col"
+    >
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold tracking-[0.25em] uppercase text-white shadow-black drop-shadow-md">NEW ACQUISITION</h1>
+        <p className="text-[#00F0FF] font-mono text-xs tracking-[0.2em] uppercase mt-2">
+          Initialize AI-Powered Sonar Inspection
         </p>
       </div>
 
-      {error && (
-        <div className="glass-panel border-risk-high/50 bg-risk-high/10 p-4 flex flex-col items-center justify-center space-y-3">
-          <div className="flex items-center gap-2 text-risk-high font-mono tracking-widest font-bold">
-            <AlertTriangle className="w-5 h-5" />
-            SYSTEM ERROR
-          </div>
-          <p className="text-sm text-gray-300">{error}</p>
-          <button onClick={() => setError(null)} className="sonar-button text-xs px-4 py-2 mt-2">
-            DISMISS
-          </button>
-        </div>
-      )}
-
-      {!processing ? (
-        <div className="glass-panel p-8">
-          
-          {!file ? (
-            <div 
-              className={`
-                border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300
-                flex flex-col items-center justify-center min-h-[300px]
-                ${dragActive ? 'border-sonar-cyan bg-sonar-cyan/5' : 'border-sonar-border hover:border-gray-500 hover:bg-white/5'}
-              `}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-            >
-              <div className="w-16 h-16 rounded-full bg-sonar-border/50 flex items-center justify-center mb-4 text-sonar-cyan">
-                <UploadCloud className="w-8 h-8" />
+      <AnimatePresence>
+        {error && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }} 
+            animate={{ opacity: 1, height: 'auto' }} 
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <GlassPanel className="border-red-500/50 bg-red-500/10 p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3 text-red-400 font-mono tracking-[0.2em] font-bold text-xs">
+                <AlertTriangle className="w-5 h-5" />
+                {error}
               </div>
-              <h3 className="text-lg font-medium text-white mb-2 tracking-wide">DROP SONAR IMAGE</h3>
-              <p className="text-gray-400 font-mono text-xs mb-6">JPG / PNG SUPPORTED</p>
-              
-              <button 
-                onClick={() => fileInputRef.current?.click()}
-                className="sonar-button"
-              >
-                SELECT IMAGE
+              <button onClick={() => setError(null)} className="text-gray-400 hover:text-white">
+                <X className="w-4 h-4" />
               </button>
+            </GlassPanel>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <GlassPanel className="flex-1 p-8 flex flex-col justify-center min-h-[500px] relative overflow-hidden" borderTop>
+        
+        {/* Subtle Background Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#00F0FF]/10 blur-3xl rounded-full" />
+          <div className="absolute top-10 left-10 w-px h-full bg-gradient-to-b from-transparent via-[#00F0FF]/20 to-transparent" />
+        </div>
+
+        <AnimatePresence mode="wait">
+          {!processing ? (
+            <motion.div 
+              key="upload"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex-1 flex flex-col h-full z-10"
+            >
+              <SectionHeader icon={Crosshair} title="Telemetry Input" subtitle="Awaiting Image Data" />
               
-              <input 
-                ref={fileInputRef}
-                type="file" 
-                className="hidden" 
-                accept="image/jpeg, image/png, image/jpg"
-                onChange={handleChange}
-              />
-            </div>
-          ) : (
-            <div className="flex flex-col">
-              <div className="flex justify-between items-start mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-lg bg-sonar-cyan/10 text-sonar-cyan">
-                    <FileImage className="w-6 h-6" />
+              {!file ? (
+                <div 
+                  className={`
+                    flex-1 border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300
+                    flex flex-col items-center justify-center relative overflow-hidden group
+                    ${dragActive ? 'border-[#00F0FF] bg-[#00F0FF]/10 shadow-[0_0_30px_rgba(0,240,255,0.15)]' : 'border-[#1A2C42] hover:border-[#00F0FF]/50 hover:bg-white/5'}
+                  `}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <div className="w-20 h-20 rounded-full bg-[#1A2C42]/50 flex items-center justify-center mb-6 text-[#00F0FF] group-hover:scale-110 transition-transform duration-500">
+                    <UploadCloud className="w-10 h-10" />
                   </div>
-                  <div>
-                    <h3 className="text-white font-medium tracking-wide">{file.name}</h3>
-                    <p className="text-gray-400 font-mono text-xs">{(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                  <h3 className="text-xl font-medium text-white mb-2 tracking-[0.2em] uppercase">LINK DATA STREAM</h3>
+                  <p className="text-gray-500 font-mono text-[10px] mb-8 tracking-[0.2em] uppercase">Drag payload or select manually</p>
+                  
+                  <GlowButton onClick={() => fileInputRef.current?.click()}>
+                    SELECT PAYLOAD
+                  </GlowButton>
+                  
+                  <input 
+                    ref={fileInputRef}
+                    type="file" 
+                    className="hidden" 
+                    accept="image/jpeg, image/png, image/jpg"
+                    onChange={handleChange}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col flex-1 h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="p-4 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF]">
+                        <FileImage className="w-8 h-8" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-mono tracking-widest text-sm uppercase">{file.name}</h3>
+                        <p className="text-gray-500 font-mono text-[10px] tracking-widest mt-1">{(file.size / (1024 * 1024)).toFixed(2)} MB • READY FOR TRANSFER</p>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={removeFile}
+                      className="p-2 text-gray-400 hover:text-red-400 rounded-lg hover:bg-red-400/10 transition-colors border border-transparent hover:border-red-400/30"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="relative w-full flex-1 rounded-lg overflow-hidden border border-[#1A2C42] mb-6 bg-black min-h-[300px]">
+                    <img 
+                      src={preview} 
+                      alt="Sonar Preview" 
+                      className="w-full h-full object-contain"
+                    />
+                    <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(0,240,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px]" />
+                    <div className="absolute top-4 right-4 bg-black/60 px-3 py-1 font-mono text-[9px] text-[#00F0FF] tracking-widest border border-[#00F0FF]/30 backdrop-blur">
+                      RAW ACOUSTIC FEED
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <GlowButton primary onClick={triggerAnalysis} className="py-4">
+                      <Cpu className="w-5 h-5 mr-2" />
+                      ENGAGE AI INFERENCE
+                    </GlowButton>
                   </div>
                 </div>
-                <button 
-                  onClick={removeFile}
-                  className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="relative w-full h-[300px] rounded-lg overflow-hidden border border-sonar-border mb-8 bg-black">
-                <img 
-                  src={preview} 
-                  alt="Sonar Preview" 
-                  className="w-full h-full object-contain"
-                />
+              )}
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="processing"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center justify-center flex-1 z-10"
+            >
+              <div className="relative w-40 h-40 mb-10">
+                <div className="absolute inset-0 border border-[#1A2C42] rounded-full" />
+                <div className="absolute inset-2 border border-[#00F0FF]/30 rounded-full border-t-[#00F0FF] animate-spin" style={{ animationDuration: '3s' }} />
+                <div className="absolute inset-6 border border-[#00F0FF]/20 rounded-full border-b-[#00F0FF] animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }} />
+                <div className="absolute inset-10 border border-[#00F0FF]/10 rounded-full" style={{ background: 'conic-gradient(from 0deg, transparent 70%, rgba(0, 240, 255, 0.4) 100%)', animation: 'spin 1.5s linear infinite' }} />
                 
-                {/* Subtle scanning grid overlay over image preview */}
-                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(0,240,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,240,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                <div className="absolute inset-0 flex items-center justify-center text-[#00F0FF]">
+                  <Radar className="w-10 h-10 animate-pulse" />
+                </div>
               </div>
-
-              <div className="flex justify-end">
-                <button 
-                  onClick={triggerAnalysis}
-                  className="sonar-button-primary flex items-center gap-2"
-                >
-                  <Cpu className="w-5 h-5" />
-                  ANALYZE WITH AI
-                </button>
+              
+              <h2 className="text-xl font-bold tracking-[0.3em] text-white mb-8 uppercase drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">EXECUTING INTELLIGENCE PROTOCOL</h2>
+              
+              <div className="w-full max-w-sm space-y-5 font-mono text-[10px] tracking-[0.2em] uppercase">
+                <ProcessStep active={processState >= 1} done={processState > 1} text="TRANSMITTING PAYLOAD" />
+                <ProcessStep active={processState >= 2} done={processState > 2} text="YOLO NEURAL INFERENCE (RTX 4050)" />
+                <ProcessStep active={processState >= 3} done={processState > 3} text="DETERMINISTIC RISK CALCULATION" />
+                <ProcessStep active={processState >= 4} done={processState > 4} text="DATABASE SYNCHRONIZATION" />
               </div>
-            </div>
+            </motion.div>
           )}
-        </div>
-      ) : (
-        /* Processing State */
-        <div className="glass-panel p-12 flex flex-col items-center justify-center min-h-[400px]">
-          <div className="relative w-32 h-32 mb-8">
-            <div className="absolute inset-0 border-2 border-sonar-border rounded-full"></div>
-            <div className="absolute inset-0 border-2 border-sonar-cyan rounded-full border-t-transparent animate-spin"></div>
-            <div className="absolute inset-2 border border-sonar-cyan/30 rounded-full radar-sweep"></div>
-            <div className="absolute inset-0 flex items-center justify-center text-sonar-cyan">
-              <Activity className="w-8 h-8 animate-pulse" />
-            </div>
-          </div>
-          
-          <h2 className="text-xl font-bold tracking-widest text-white mb-6 uppercase">ANALYZING SONAR DATA</h2>
-          
-          <div className="w-full max-w-sm space-y-4 font-mono text-sm tracking-widest">
-            <ProcessStep active={processState >= 1} done={processState > 1} text="Image uploaded" />
-            <ProcessStep active={processState >= 2} done={processState > 2} text="YOLO11n Neural Detection" />
-            <ProcessStep active={processState >= 3} done={processState > 3} text="Risk Assessment" />
-            <ProcessStep active={processState >= 4} done={processState > 4} text="Persisting Analysis" />
-          </div>
-        </div>
-      )}
-    </div>
+        </AnimatePresence>
+      </GlassPanel>
+    </motion.div>
   );
 }
 
 function ProcessStep({ active, done, text }) {
   if (!active) {
     return (
-      <div className="flex items-center gap-3 text-gray-600">
-        <div className="w-5 h-5 rounded-full border border-gray-600"></div>
+      <div className="flex items-center gap-4 text-[#1A2C42] opacity-50">
+        <div className="w-4 h-4 rounded border border-[#1A2C42]" />
         <span>{text}</span>
       </div>
     );
@@ -243,19 +276,19 @@ function ProcessStep({ active, done, text }) {
   
   if (done) {
     return (
-      <div className="flex items-center gap-3 text-sonar-cyan">
-        <CheckCircle className="w-5 h-5" />
+      <div className="flex items-center gap-4 text-emerald-400">
+        <CheckCircle className="w-4 h-4" />
         <span>{text}</span>
       </div>
     );
   }
   
   return (
-    <div className="flex items-center gap-3 text-white">
-      <div className="w-5 h-5 rounded-full bg-sonar-cyan flex items-center justify-center animate-pulse">
-        <div className="w-2 h-2 rounded-full bg-black"></div>
+    <div className="flex items-center gap-4 text-[#00F0FF]">
+      <div className="w-4 h-4 border border-[#00F0FF] flex items-center justify-center">
+        <div className="w-2 h-2 bg-[#00F0FF] animate-pulse" />
       </div>
-      <span className="animate-pulse">{text}...</span>
+      <span className="animate-pulse shadow-[#00F0FF]">{text}...</span>
     </div>
   );
 }
