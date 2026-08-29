@@ -27,3 +27,16 @@ def get_history(
     )
 
     return scans
+@router.get("/history/{scan_id}/image")
+def get_scan_image(scan_id: str, db: Session = Depends(get_db)):
+    import os
+    from fastapi.responses import FileResponse
+    from fastapi import HTTPException
+    
+    scan = db.query(Scan).filter(Scan.scan_id == scan_id).first()
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+    if not os.path.exists(scan.file_path):
+        raise HTTPException(status_code=404, detail="Image file not found")
+        
+    return FileResponse(scan.file_path)
