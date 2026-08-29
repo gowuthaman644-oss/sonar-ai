@@ -33,3 +33,8 @@ outputs/*
 !outputs/.gitkeep
 *.sqlite3
 *.db
+
+# Virtual Envs
+.venv-yolo/
+.pytest_cache/
+yolo11n.pt

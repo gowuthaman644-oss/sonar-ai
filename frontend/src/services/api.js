@@ -1,33 +1,33 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import axios from 'axios';
 
-export const uploadSonarImage = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
+const api = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-    const response = await fetch(`${API_BASE_URL}/sonar/upload`, {
-        method: 'POST',
-        body: formData,
-    });
-
-    if (!response.ok) {
-        throw new Error('Upload failed');
-    }
-
-    return response.json();
+export const getStats = async () => {
+  const response = await api.get('/stats');
+  return response.data;
 };
 
-export const checkJobStatus = async (jobId) => {
-    const response = await fetch(`${API_BASE_URL}/sonar/status/${jobId}`);
-    if (!response.ok) {
-        throw new Error('Status check failed');
-    }
-    return response.json();
+export const getHistory = async () => {
+  const response = await api.get('/history');
+  return response.data;
 };
 
-export const getJobResults = async (jobId) => {
-    const response = await fetch(`${API_BASE_URL}/sonar/results/${jobId}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch results');
-    }
-    return response.json();
+export const analyzeSonar = async (file) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  
+  const response = await api.post('/analyze', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  
+  return response.data;
 };
+
+export default api;
