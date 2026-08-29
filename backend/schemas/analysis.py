@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -23,5 +24,6 @@ class ScanAnalysisResponse(BaseModel):
     scan_id: str
     filename: str
     status: str
+    created_at: Optional[datetime] = None
     detections: list[DetectionResponse]
     analysis: Optional[AnalysisResponse] = None

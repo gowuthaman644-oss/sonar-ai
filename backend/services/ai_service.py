@@ -5,26 +5,8 @@ from typing import Any, List, Dict
 import logging
 from pathlib import Path
 from typing import Any, List, Dict
-try:
-    import torch
-except ImportError:
-    class MockTorchCUDA:
-        def is_available(self): return True
-        def get_device_name(self, d): return 'NVIDIA GeForce RTX 4050 Laptop GPU'
-    class MockTorch:
-        cuda = MockTorchCUDA()
-        def tensor(self, val):
-            class MockTensor:
-                def __init__(self, v): self.v = v
-                def item(self): return self.v[0] if isinstance(self.v, list) else self.v
-                def tolist(self): return self.v
-            return MockTensor(val)
-    torch = MockTorch()
-
-try:
-    from ultralytics import YOLO
-except ImportError:
-    YOLO = None
+import torch
+from ultralytics import YOLO
 
 logger = logging.getLogger(__name__)
 
@@ -53,22 +35,6 @@ def load_model():
     if not model_path.exists():
         logger.error(f"Model weights not found at {model_path}")
         raise FileNotFoundError(f"Trained model not found at {model_path}")
-        
-    if YOLO is None:
-        logger.warning("Ultralytics library is not installed. Using Mock YOLO for testing.")
-        class MockYOLO:
-            def __init__(self, path): pass
-            def predict(self, source, imgsz, conf, device, verbose):
-                class MockBox:
-                    def __init__(self):
-                        self.cls = [torch.tensor([3.0])]
-                        self.conf = [torch.tensor([0.92])]
-                        self.xyxy = [torch.tensor([210.5, 145.2, 345.8, 260.1])]
-                class MockResult:
-                    def __init__(self):
-                        self.boxes = [MockBox()]
-                return [MockResult()]
-        globals()['YOLO'] = MockYOLO
         
     logger.info(f"Loading YOLO model from {model_path}...")
     _MODEL = YOLO(str(model_path))

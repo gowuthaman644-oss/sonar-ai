@@ -129,6 +129,7 @@ async def analyze_sonar(
             scan_id=scan.scan_id,
             filename=scan.filename,
             status=scan.status,
+            created_at=scan.created_at,
             detections=detection_responses,
             analysis=analysis_response
         )
