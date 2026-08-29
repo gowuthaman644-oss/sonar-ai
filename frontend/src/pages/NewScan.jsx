@@ -75,13 +75,6 @@ export default function NewScan() {
     }
   };
 
-  React.useEffect(() => {
-    return () => {
-      if (preview) {
-        URL.revokeObjectURL(preview);
-      }
-    };
-  }, [preview]);
 
   const triggerAnalysis = async () => {
     if (!file) return;
