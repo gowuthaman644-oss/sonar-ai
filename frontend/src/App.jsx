@@ -1,34 +1,48 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import Layout from './components/layout/Layout';
-import Dashboard from './pages/Dashboard';
-import NewScan from './pages/NewScan';
-import Results from './pages/Results';
-import History from './pages/History';
-import Analytics from './pages/Analytics';
-import SonarMap from './pages/SonarMap';
-import Reports from './pages/Reports';
+import { Activity } from 'lucide-react';
 
-import BootSequence from './pages/BootSequence';
+const BootSequence = React.lazy(() => import('./pages/BootSequence'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const NewScan = React.lazy(() => import('./pages/NewScan'));
+const Results = React.lazy(() => import('./pages/Results'));
+const History = React.lazy(() => import('./pages/History'));
+const Analytics = React.lazy(() => import('./pages/Analytics'));
+const SonarMap = React.lazy(() => import('./pages/SonarMap'));
+const Reports = React.lazy(() => import('./pages/Reports'));
+
+const PageFallback = () => (
+  <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
+    <div className="w-12 h-12 border-2 border-[#00F0FF] border-t-transparent rounded-full animate-spin flex items-center justify-center">
+      <Activity className="w-4 h-4 text-[#00F0FF] animate-pulse" />
+    </div>
+    <div className="font-mono tracking-[0.2em] text-[#00F0FF] animate-pulse text-[10px]">
+      INITIALIZING MODULE...
+    </div>
+  </div>
+);
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<BootSequence />} />
-          <Route path="/" element={<Layout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="scan" element={<NewScan />} />
-            <Route path="results/:scanId" element={<Results />} />
-            <Route path="history" element={<History />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="map" element={<SonarMap />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<BootSequence />} />
+            <Route path="/" element={<Layout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="scan" element={<NewScan />} />
+              <Route path="results/:scanId" element={<Results />} />
+              <Route path="history" element={<History />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="map" element={<SonarMap />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </Router>
       
       <Toaster 
