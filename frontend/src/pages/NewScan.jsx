@@ -54,12 +54,19 @@ export default function NewScan() {
       return;
     }
     
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    
     setFile(selectedFile);
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
   };
 
   const removeFile = () => {
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
     setFile(null);
     setPreview(null);
     setError(null);
@@ -67,6 +74,14 @@ export default function NewScan() {
       fileInputRef.current.value = "";
     }
   };
+
+  React.useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const triggerAnalysis = async () => {
     if (!file) return;
@@ -99,9 +114,9 @@ export default function NewScan() {
   };
 
   const pageVariants = {
-    initial: { opacity: 0, scale: 0.98 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
-    exit: { opacity: 0, scale: 1.02 }
+    initial: { opacity: 0, y: 5 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.15, ease: 'easeOut' } },
+    exit: { opacity: 0 }
   };
 
   return (
