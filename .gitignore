@@ -38,3 +38,6 @@ outputs/*
 .venv-yolo/
 .pytest_cache/
 yolo11n.pt
+runs/detect/val-*/
+runs/detect/val[0-9]*/
+scans_history.csv

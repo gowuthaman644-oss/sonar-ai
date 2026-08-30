@@ -15,10 +15,10 @@ const Reports = React.lazy(() => import('./pages/Reports'));
 
 const PageFallback = () => (
   <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-    <div className="w-12 h-12 border-2 border-[#00F0FF] border-t-transparent rounded-full animate-spin flex items-center justify-center">
-      <Activity className="w-4 h-4 text-[#00F0FF] animate-pulse" />
+    <div className="w-12 h-12 border-2 border-[#20DCC5] border-t-transparent rounded-full animate-spin flex items-center justify-center">
+      <Activity className="w-4 h-4 text-[#20DCC5] animate-pulse" />
     </div>
-    <div className="font-mono tracking-[0.2em] text-[#00F0FF] animate-pulse text-[10px]">
+    <div className="font-mono tracking-[0.2em] text-[#20DCC5] animate-pulse text-[10px]">
       INITIALIZING MODULE...
     </div>
   </div>
@@ -50,7 +50,7 @@ function App() {
         theme="dark"
         position="bottom-right"
         toastOptions={{
-          className: 'bg-[#0B1422] border border-[#1A2C42] text-white font-mono tracking-widest uppercase rounded-xl backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.5)]',
+          className: 'bg-[#0B1422] border border-[#0F6F70] text-[#F2F7F5] font-mono tracking-widest uppercase rounded-xl backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.5)]',
           style: {
             background: 'rgba(11, 20, 34, 0.9)',
           }

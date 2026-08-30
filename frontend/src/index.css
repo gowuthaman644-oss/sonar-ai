@@ -1,89 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@100..800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-sonar-bg: #050B14;
-  --color-sonar-panel: #0B1422;
-  --color-sonar-border: #1A2C42;
-  --color-sonar-cyan: #00F0FF;
-  --color-sonar-cyan-dim: rgba(0, 240, 255, 0.2);
-  --color-risk-low: #10B981;
-  --color-risk-medium: #F59E0B;
-  --color-risk-high: #EF4444;
+  --color-sonar-bg: #02090B;
+  --color-sonar-panel: #06191A;
+  --color-sonar-panel-sec: #092223;
+  --color-sonar-border: #0F6F70;
+  
+  --color-sonar-cyan: #20DCC5;
+  --color-sonar-cyan-sec: #38BFC3;
+  --color-sonar-gold: #D6A84F;
+  --color-sonar-gold-soft: #E6C36A;
+  
+  --color-text-main: #F2F7F5;
+  --color-text-sec: #A8BDB9;
+  --color-text-muted: #607874;
+
+  --color-risk-low: #20DCC5;
+  --color-risk-medium: #D6A84F;
+  --color-risk-high: #F28C28;
+  --color-risk-critical: #E5483F;
+  
+  --font-sans: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer base {
   body {
-    @apply bg-[#02050A] text-gray-200 font-sans antialiased;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.05) 0%, transparent 70%),
-      linear-gradient(to right, rgba(0, 240, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
-    background-attachment: fixed;
+    @apply text-[#F2F7F5] font-sans antialiased overflow-x-hidden;
+    background-color: #02090B; /* Fallback */
   }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    /* Cinematic Underwater Background System */
+    background-image: 
+      linear-gradient(
+        180deg,
+        rgba(2, 12, 15, 0.20) 0%,
+        rgba(2, 12, 15, 0.38) 45%,
+        rgba(1, 7, 10, 0.58) 100%
+      ),
+      url('/ocean-background.jpg');
+      
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    animation: ambientOcean 30s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes ambientOcean {
+  0% { background-position: center 0%; }
+  100% { background-position: center 5%; }
+}
+
+@keyframes sonarPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 @layer components {
-  .glass-panel {
-    @apply bg-[#0B1422]/80 backdrop-blur-md border border-[#1A2C42] rounded-xl shadow-lg;
-  }
-  
-  .sonar-button {
-    @apply relative overflow-hidden px-6 py-3 bg-transparent border border-[#00F0FF] text-[#00F0FF] font-bold tracking-widest uppercase transition-all duration-300 hover:bg-[#00F0FF]/10 hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  
-  .sonar-button-primary {
-    @apply relative overflow-hidden px-6 py-3 bg-[#00F0FF] border border-[#00F0FF] text-[#050B14] font-bold tracking-widest uppercase transition-all duration-300 hover:bg-[#00F0FF]/90 hover:shadow-[0_0_20px_rgba(0,240,255,0.6)] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
+  /* Custom Scrollbar for dark marine theme */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(6, 25, 26, 0.5);
+    border-radius: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #1A2C42;
+    background: rgba(32, 220, 197, 0.2);
     border-radius: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #00F0FF;
+    background: rgba(32, 220, 197, 0.5);
   }
 }
 
-/* Animations */
-@keyframes sweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-@keyframes scan {
-  0% { top: -10%; }
-  100% { top: 110%; }
-}
-
-.radar-sweep {
-  animation: sweep 4s linear infinite;
-  transform-origin: center;
-  background: conic-gradient(from 0deg, transparent 70%, rgba(0, 240, 255, 0.4) 100%);
-}
-
-.radar-ring {
-  @apply absolute border border-[#00F0FF]/30 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #050B14;
-}
-::-webkit-scrollbar-thumb {
-  background: #1A2C42;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #00F0FF;
+/* Print optimizations (Preserved for Report Export) */
+@media print {
+  @page { margin: 0.5cm; }
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: white !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+  .print\:block {
+    display: block !important;
+  }
 }

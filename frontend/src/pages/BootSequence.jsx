@@ -36,7 +36,7 @@ export default function BootSequence() {
   }, [navigate]);
 
   return (
-    <div className="fixed inset-0 bg-[#02050A] flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-[#02090B] flex items-center justify-center z-50">
       
       <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
 
@@ -47,20 +47,20 @@ export default function BootSequence() {
         
         <div className="flex items-center gap-4 mb-8 border-b border-sonar-border pb-4">
           <Terminal className="w-8 h-8 text-sonar-cyan" />
-          <h1 className="text-2xl font-bold tracking-[0.3em] text-white uppercase">SONAR-AI KERNEL</h1>
+          <h1 className="text-2xl font-bold tracking-[0.3em] text-[#F2F7F5] uppercase">SONAR-AI KERNEL</h1>
         </div>
 
         <div className="space-y-3 min-h-[300px]">
           {lines.map((line, idx) => (
             <div key={idx} className="flex gap-4 items-center text-sm tracking-widest animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <span className="text-gray-600">[{String(idx + 1).padStart(2, '0')}]</span>
-              <span className={idx === bootLogs.length - 1 ? 'text-sonar-cyan font-bold shadow-[0_0_10px_rgba(0,240,255,0.5)]' : 'text-gray-400'}>
+              <span className="text-[#607874]">[{String(idx + 1).padStart(2, '0')}]</span>
+              <span className={idx === bootLogs.length - 1 ? 'text-sonar-cyan font-bold shadow-[0_0_10px_rgba(40,224,196,0.5)]' : 'text-[#A8BDB9]'}>
                 {line}
               </span>
             </div>
           ))}
           <div className="flex gap-4 items-center text-sm tracking-widest mt-2">
-            <span className="text-gray-600">[{String(lines.length + 1).padStart(2, '0')}]</span>
+            <span className="text-[#607874]">[{String(lines.length + 1).padStart(2, '0')}]</span>
             <span className="w-3 h-4 bg-sonar-cyan animate-pulse inline-block"></span>
           </div>
         </div>
