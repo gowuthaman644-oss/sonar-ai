@@ -38,6 +38,7 @@ function App() {
               <Route path="history" element={<History />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="map" element={<SonarMap />} />
+              <Route path="reports/:scanId" element={<Reports />} />
               <Route path="reports" element={<Reports />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Route>

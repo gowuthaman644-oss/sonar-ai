@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getHistory } from '../services/api';
-import { FileText, Download, AlertTriangle, Lock } from 'lucide-react';
+import { FileText, Download, AlertTriangle, Target, Activity, Shield } from 'lucide-react';
+import { RiskBadge } from '../components/ui';
 
 export default function Reports() {
+  const { scanId } = useParams();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,12 +23,25 @@ export default function Reports() {
     load();
   }, []);
 
-  const topScan = history.length > 0 ? history[0] : null;
+  const targetScan = scanId 
+    ? history.find(s => s.scan_id === scanId) 
+    : (history.length > 0 ? history[0] : null);
+
+  const handleExport = () => {
+    // If they click Export PDF here, we can trigger print (similar to Results.jsx)
+    const originalTitle = document.title;
+    if (targetScan) {
+      document.title = `SONAR-AI_Intelligence_Report_${targetScan.scan_id}`;
+    }
+    window.print();
+    document.title = originalTitle;
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-700 h-full flex flex-col pb-10">
       
-      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-sonar-border pb-6 mb-2">
+      {/* HEADER - HIDE ON PRINT */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A2C42] pb-6 mb-2 print:hidden">
         <div>
           <div className="flex items-center gap-4 mb-2">
             <h1 className="text-3xl font-bold tracking-[0.2em] uppercase text-white">INTELLIGENCE REPORTS</h1>
@@ -34,78 +50,146 @@ export default function Reports() {
             DOCUMENT EXPORT
           </p>
         </div>
-        <button disabled={!topScan} className="sonar-button-primary text-xs py-3 px-6 mt-4 md:mt-0 flex items-center gap-2 opacity-50 cursor-not-allowed">
+        <button 
+          onClick={handleExport}
+          disabled={!targetScan} 
+          className="bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF] hover:bg-[#00F0FF]/20 text-xs py-3 px-6 mt-4 md:mt-0 flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Download className="w-4 h-4" /> EXPORT PDF
         </button>
       </div>
 
-      <div className="glass-panel max-w-4xl mx-auto w-full p-0 relative overflow-hidden flex-1 flex flex-col border-t-4 border-t-gray-600">
+      <div className="bg-black/40 border border-[#1A2C42] max-w-4xl mx-auto w-full p-0 relative overflow-hidden flex-1 flex flex-col print:border-none print:w-full print:max-w-none print:bg-white print:text-black">
         
-        {/* Subtle background branding */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
+        {/* Subtle background branding - HIDE ON PRINT */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none print:hidden">
           <FileText className="w-96 h-96" />
         </div>
 
-        <div className="relative z-10 p-12 flex-1 flex flex-col">
-          {/* Header */}
-          <div className="text-center border-b border-sonar-border/50 pb-8 mb-8">
-            <h2 className="text-3xl font-bold tracking-[0.4em] text-white uppercase mb-2">SONAR-AI</h2>
-            <h3 className="text-xs font-mono tracking-widest text-sonar-cyan uppercase">Automated Intelligence Brief</h3>
+        <div className="relative z-10 p-8 md:p-12 flex-1 flex flex-col">
+          {/* Document Header */}
+          <div className="text-center border-b border-[#1A2C42] print:border-black pb-8 mb-8">
+            <h2 className="text-3xl font-bold tracking-[0.4em] text-white print:text-black uppercase mb-2">SONAR-AI</h2>
+            <h3 className="text-xs font-mono tracking-widest text-[#00F0FF] print:text-gray-600 uppercase">Automated Intelligence Brief</h3>
           </div>
 
           {loading ? (
-             <div className="flex-1 flex items-center justify-center font-mono text-gray-500 tracking-widest animate-pulse">GENERATING DOCUMENT...</div>
-          ) : !topScan ? (
-             <div className="flex-1 flex items-center justify-center font-mono text-gray-500 tracking-widest">NO SCANS AVAILABLE FOR REPORT.</div>
+             <div className="flex-1 flex items-center justify-center font-mono text-gray-500 tracking-widest animate-pulse print:hidden">GENERATING DOCUMENT...</div>
+          ) : !targetScan ? (
+             <div className="flex-1 flex items-center justify-center font-mono text-gray-500 tracking-widest print:hidden">NO SCANS AVAILABLE FOR REPORT.</div>
           ) : (
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col print:block">
               
-              <div className="grid grid-cols-2 gap-12 flex-1">
-                <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 flex-1 print:block">
+                
+                <div className="space-y-8 print:mb-8">
                   {/* Scan Info */}
                   <div className="space-y-4 font-mono">
-                    <h4 className="text-[10px] text-gray-500 font-bold tracking-widest uppercase border-b border-sonar-border/30 pb-2 mb-4">Identification</h4>
+                    <h4 className="text-[10px] text-gray-500 print:text-gray-800 font-bold tracking-widest uppercase border-b border-[#1A2C42] print:border-black pb-2 mb-4">Identification</h4>
                     <div className="grid grid-cols-2 gap-y-4 text-xs">
-                      <div className="text-gray-500">SCAN ID</div>
-                      <div className="text-white text-right">{topScan.scan_id}</div>
+                      <div className="text-gray-500 print:text-gray-800">SCAN ID</div>
+                      <div className="text-white print:text-black text-right font-bold">{targetScan.scan_id}</div>
                       
-                      <div className="text-gray-500">SOURCE FILE</div>
-                      <div className="text-white text-right truncate pl-4">{topScan.filename}</div>
+                      <div className="text-gray-500 print:text-gray-800">SOURCE FILE</div>
+                      <div className="text-white print:text-black text-right truncate pl-4">{targetScan.filename}</div>
 
-                      <div className="text-gray-500">DATE</div>
-                      <div className="text-white text-right">{new Date(topScan.created_at).toLocaleString()}</div>
+                      <div className="text-gray-500 print:text-gray-800">DATE</div>
+                      <div className="text-white print:text-black text-right">{new Date(targetScan.created_at).toLocaleString()}</div>
                     </div>
                   </div>
 
                   {/* Tech Specs */}
                   <div className="space-y-4 font-mono">
-                    <h4 className="text-[10px] text-gray-500 font-bold tracking-widest uppercase border-b border-sonar-border/30 pb-2 mb-4">System Parameters</h4>
+                    <h4 className="text-[10px] text-gray-500 print:text-gray-800 font-bold tracking-widest uppercase border-b border-[#1A2C42] print:border-black pb-2 mb-4">System Parameters</h4>
                     <div className="grid grid-cols-2 gap-y-4 text-xs">
-                      <div className="text-gray-500">ENGINE</div>
-                      <div className="text-white text-right">YOLO11n</div>
+                      <div className="text-gray-500 print:text-gray-800">ENGINE</div>
+                      <div className="text-[#00F0FF] print:text-black text-right font-bold">YOLO11n</div>
                       
-                      <div className="text-gray-500">ACCELERATION</div>
-                      <div className="text-white text-right">CUDA</div>
+                      <div className="text-gray-500 print:text-gray-800">ACCELERATION</div>
+                      <div className="text-amber-500 print:text-black text-right font-bold">CUDA</div>
+                    </div>
+                  </div>
+
+                  {/* Risk Assessment */}
+                  <div className="space-y-4 font-mono">
+                    <h4 className="text-[10px] text-gray-500 print:text-gray-800 font-bold tracking-widest uppercase border-b border-[#1A2C42] print:border-black pb-2 mb-4 flex items-center gap-2">
+                      <Shield className="w-3 h-3" /> THREAT ASSESSMENT
+                    </h4>
+                    <div className="grid grid-cols-2 gap-y-4 text-xs bg-black/50 print:bg-transparent print:border print:border-black p-4 rounded border border-[#1A2C42]">
+                      <div className="text-gray-500 print:text-gray-800">RISK LEVEL</div>
+                      <div className="text-right">
+                        <RiskBadge level={targetScan.analysis?.risk_level || 'LOW'} />
+                      </div>
+                      
+                      <div className="text-gray-500 print:text-gray-800">RISK SCORE</div>
+                      <div className="text-white print:text-black text-right font-bold text-sm">{targetScan.analysis?.risk_score?.toFixed(1) || '0.0'} / 100</div>
+
+                      <div className="text-gray-500 print:text-gray-800">DETECTED ENTITIES</div>
+                      <div className="text-[#00F0FF] print:text-black text-right font-bold text-sm">{(targetScan.detections || []).length}</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-8 flex flex-col">
-                  {/* Assessment */}
+                <div className="space-y-8 flex flex-col print:mb-8">
+                  {/* Detection Inventory */}
                   <div className="space-y-4 font-mono flex-1">
-                    <h4 className="text-[10px] text-gray-500 font-bold tracking-widest uppercase border-b border-sonar-border/30 pb-2 mb-4">Assessment Payload</h4>
+                    <h4 className="text-[10px] text-gray-500 print:text-gray-800 font-bold tracking-widest uppercase border-b border-[#1A2C42] print:border-black pb-2 mb-4 flex items-center gap-2">
+                      <Target className="w-3 h-3" /> DETECTION INVENTORY
+                    </h4>
                     
-                    <div className="p-6 border border-dashed border-sonar-border bg-black/40 flex flex-col items-center justify-center h-48 text-center text-gray-500">
-                       <Lock className="w-8 h-8 mb-4 opacity-50" />
-                       <span className="text-xs tracking-widest">FULL DETECTION PAYLOAD<br/>UNAVAILABLE IN ARCHIVE VIEW</span>
+                    <div className="space-y-3 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar print:max-h-none print:overflow-visible">
+                      {(!targetScan.detections || targetScan.detections.length === 0) ? (
+                         <div className="p-4 border border-dashed border-[#1A2C42] print:border-gray-400 bg-black/40 print:bg-transparent text-center text-gray-500 text-xs tracking-widest">
+                           NO TARGETS DETECTED
+                         </div>
+                      ) : (
+                        targetScan.detections.map((det, idx) => (
+                          <div key={idx} className="p-3 bg-black/40 print:bg-transparent print:border print:border-gray-400 border border-[#1A2C42] rounded border-l-2 border-l-[#00F0FF]">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-xs font-bold text-white print:text-black tracking-widest uppercase flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-[#00F0FF] print:bg-black" />
+                                {det.class_name}
+                              </span>
+                              <span className="text-xs text-[#00F0FF] print:text-black font-bold">{(det.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-1 text-[9px] text-gray-500 print:text-gray-800">
+                              <div>X1: {det.x.toFixed(1)}</div>
+                              <div>Y1: {det.y.toFixed(1)}</div>
+                              <div>X2: {(det.x + det.width).toFixed(1)}</div>
+                              <div>Y2: {(det.y + det.height).toFixed(1)}</div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-sonar-border/30 text-center">
-                <div className="inline-block px-4 py-2 border border-risk-high/30 bg-risk-high/5 text-risk-high text-[10px] font-mono tracking-widest uppercase rounded">
-                   RESTRICTED DEMONSTRATION RECORD
+              {/* Sonar Image */}
+              <div className="mt-8 space-y-4 font-mono print:mt-8" style={{ pageBreakInside: 'avoid' }}>
+                <h4 className="text-[10px] text-gray-500 print:text-gray-800 font-bold tracking-widest uppercase border-b border-[#1A2C42] print:border-black pb-2 mb-4 flex items-center gap-2">
+                  <Activity className="w-3 h-3" /> SOURCE IMAGERY
+                </h4>
+                <div className="border border-[#1A2C42] print:border-black bg-black p-1 inline-block relative max-w-full">
+                  <img 
+                    src={`/api/history/${targetScan.scan_id}/image`} 
+                    alt="Sonar Scan" 
+                    className="max-w-full h-auto object-contain max-h-[300px] print:max-h-[500px]"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="hidden absolute inset-0 items-center justify-center text-[10px] text-red-500 tracking-widest bg-black/80">
+                    IMAGE UNAVAILABLE
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-[#1A2C42] print:border-black text-center print:mt-12">
+                <div className="inline-block px-4 py-2 border border-[#00F0FF]/30 print:border-gray-400 bg-[#00F0FF]/5 print:bg-transparent text-[#00F0FF] print:text-gray-600 text-[10px] font-mono tracking-widest uppercase rounded">
+                   OFFICIAL INTELLIGENCE RECORD
                 </div>
               </div>
             </div>
