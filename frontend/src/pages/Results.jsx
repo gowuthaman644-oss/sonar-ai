@@ -18,6 +18,10 @@ export default function Results() {
   
   const [activeDetectionIdx, setActiveDetectionIdx] = useState(null);
 
+  // Export State
+  const [exportState, setExportState] = useState('NORMAL'); // NORMAL, EXPORTING, EXPORTED, FAILED
+  const [exportErrorMsg, setExportErrorMsg] = useState('');
+
   useEffect(() => {
     if (!result && scanId) {
       async function fetchResult() {
@@ -30,201 +34,315 @@ export default function Results() {
             setError("Analysis record not found.");
           }
         } catch (err) {
-          setError("Failed to load analysis result.");
+          setError("Failed to load history.");
         } finally {
           setLoading(false);
         }
       }
       fetchResult();
+    } else if (result) {
+      setLoading(false);
     }
   }, [scanId, result]);
 
+  // Prefer persistent image over volatile blob
+  let displayImage = imagePreview;
+  if (result && result.scan_id) {
+    displayImage = `/api/history/${result.scan_id}/image`;
+  }
+
+  const handleExport = async () => {
+    if (exportState === 'EXPORTING') return;
+    setExportState('EXPORTING');
+    setExportErrorMsg('');
+
+    try {
+      if (!result) throw new Error("No scan data available");
+
+      // Verify image loads before printing
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = () => reject(new Error("Image failed to load"));
+        img.src = `/api/history/${result.scan_id}/image`;
+      });
+
+      // Temporarily change document title for PDF filename
+      const originalTitle = document.title;
+      document.title = `SONAR-AI_Intelligence_Report_${result.scan_id}`;
+
+      // Trigger browser print
+      window.print();
+
+      // Restore title
+      document.title = originalTitle;
+      
+      setExportState('EXPORTED');
+      setTimeout(() => setExportState('NORMAL'), 3000);
+    } catch (err) {
+      console.error("Export failed:", err);
+      setExportState('FAILED');
+      setExportErrorMsg(err.message || "Export failed");
+      setTimeout(() => {
+        setExportState('NORMAL');
+        setExportErrorMsg('');
+      }, 4000);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
-        <div className="w-12 h-12 border-2 border-[#00F0FF] border-t-transparent rounded-full animate-spin" />
-        <div className="font-mono tracking-[0.2em] text-[#00F0FF] animate-pulse text-xs">ACCESSING SECURE DATA...</div>
+      <div className="flex items-center justify-center h-[60vh] print:hidden">
+        <div className="w-8 h-8 border-2 border-[#00F0FF] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !result) {
     return (
-      <div className="max-w-xl mx-auto mt-20">
-        <GlassPanel className="p-12 text-center border-red-500/50 bg-red-500/5">
-          <AlertTriangle className="w-16 h-16 mx-auto mb-6 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
-          <h2 className="text-xl font-bold text-white mb-2 tracking-[0.2em]">ACCESS DENIED / ERROR</h2>
-          <p className="text-xs font-mono text-gray-400 mb-8 uppercase tracking-widest">{error || "Unable to process sonar image."}</p>
-          <GlowButton onClick={() => navigate('/scan')} className="w-full">
-            RETURN TO ACQUISITION
-          </GlowButton>
-        </GlassPanel>
+      <div className="text-center py-20 text-red-500 font-mono tracking-widest print:hidden">
+        <AlertTriangle className="w-12 h-12 mx-auto mb-4" />
+        {error || "RECORD NOT FOUND"}
       </div>
     );
   }
 
-  const riskLevel = result.analysis?.risk_level || result.risk_level || 'LOW';
-  const riskScore = result.analysis?.risk_score || result.risk_score || 0;
-  
-  const getRiskColor = (level) => {
-    switch (level?.toUpperCase()) {
-      case 'CRITICAL': return 'text-red-500';
-      case 'HIGH': return 'text-orange-500';
-      case 'MEDIUM': return 'text-amber-500';
-      case 'LOW': return 'text-emerald-500';
-      default: return 'text-emerald-500';
-    }
-  };
-
   const detections = result.detections || [];
-  const totalDetections = detections.length;
-
-  const pageVariants = {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.1 } }
-  };
-
-  const itemVariants = {
-    initial: { opacity: 0, y: 10 },
-    animate: { opacity: 1, y: 0 }
-  };
+  const risk = result.analysis || {};
 
   return (
-    <motion.div 
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      className="max-w-[1600px] mx-auto h-full flex flex-col"
-    >
+    <div className="max-w-[1600px] mx-auto h-full flex flex-col pb-4">
       
-      {/* Top Header */}
-      <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A2C42] pb-4 mb-6">
-        <div>
-          <button onClick={() => navigate('/scan')} className="text-[#00F0FF]/70 hover:text-[#00F0FF] flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] mb-4 transition-colors uppercase">
-            <ArrowLeft className="w-3 h-3" /> INITIALIZE NEW SCAN
-          </button>
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold tracking-[0.2em] uppercase text-white shadow-black drop-shadow-md">
-              {totalDetections === 0 ? "NO ANOMALIES DETECTED" : "INTELLIGENCE REPORT"}
-            </h1>
-          </div>
+      {/* --- PRINT ONLY VIEW --- */}
+      <div className="hidden print:block w-full text-black font-sans bg-white p-8">
+        <div className="border-b-2 border-black pb-4 mb-6">
+          <h1 className="text-3xl font-bold tracking-widest uppercase">SONAR-AI</h1>
+          <h2 className="text-xl tracking-widest text-gray-600">INTELLIGENCE REPORT</h2>
         </div>
         
+        <div className="mb-8">
+          <h3 className="text-sm font-bold uppercase border-b border-gray-300 mb-2">SCAN INFORMATION</h3>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div><span className="text-gray-500">Scan ID:</span> <strong>{result.scan_id}</strong></div>
+            <div><span className="text-gray-500">Timestamp:</span> <strong>{new Date(result.created_at).toLocaleString()}</strong></div>
+            <div><span className="text-gray-500">Model:</span> <strong>YOLO11n</strong></div>
+            <div><span className="text-gray-500">Image Resolution:</span> <strong>Native Extraction</strong></div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-sm font-bold uppercase border-b border-gray-300 mb-2">THREAT ASSESSMENT</h3>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div><span className="text-gray-500">Risk Level:</span> <strong className="uppercase">{risk.risk_level || 'UNKNOWN'}</strong></div>
+            <div><span className="text-gray-500">Risk Score:</span> <strong>{risk.risk_score || 0}</strong></div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h3 className="text-sm font-bold uppercase border-b border-gray-300 mb-4">DETECTED ENTITIES</h3>
+          <div className="mb-4 text-sm"><span className="text-gray-500">Total detections:</span> <strong>{detections.length}</strong></div>
+          
+          {detections.length === 0 ? (
+            <div className="text-gray-500 italic">No targets detected in this scan.</div>
+          ) : (
+            detections.map((det, idx) => (
+              <div key={idx} className="mb-4 text-sm border-l-4 border-gray-300 pl-4">
+                <div className="font-bold uppercase text-lg">{det.class_name} — {(det.confidence * 100).toFixed(1)}%</div>
+                <div className="text-gray-600 mt-1">Bounding Box:</div>
+                <div className="font-mono text-xs mt-1 grid grid-cols-2 gap-x-4 max-w-xs">
+                  <span>x: {det.x.toFixed(1)}</span>
+                  <span>y: {det.y.toFixed(1)}</span>
+                  <span>width: {det.width.toFixed(1)}</span>
+                  <span>height: {det.height.toFixed(1)}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="mb-8" style={{ pageBreakInside: 'avoid' }}>
+          <h3 className="text-sm font-bold uppercase border-b border-gray-300 mb-4">SONAR IMAGE VISUALIZATION</h3>
+          <div className="relative inline-block border-2 border-black bg-black p-1">
+            <div className="w-[600px] h-[400px]">
+              <SonarDetectionViewer 
+                imageUrl={displayImage} 
+                detections={detections}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* --- END PRINT ONLY VIEW --- */}
+
+
+      {/* --- STANDARD APP UI --- */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#1A2C42] pb-4 mb-4 print:hidden"
+      >
+        <div>
+          <button 
+            onClick={() => navigate('/history')}
+            className="flex items-center text-[10px] font-mono text-gray-500 hover:text-[#00F0FF] transition-colors mb-4 tracking-widest uppercase"
+          >
+            <ArrowLeft className="w-3 h-3 mr-2" /> Back to History
+          </button>
+          <h1 className="text-2xl font-bold tracking-[0.2em] uppercase text-white drop-shadow-md">INTELLIGENCE REPORT</h1>
+          <p className="text-[#00F0FF] font-mono text-[9px] tracking-[0.3em] uppercase mt-1">
+            POST-INFERENCE TELEMETRY
+          </p>
+        </div>
         <div className="mt-4 md:mt-0 flex flex-col md:items-end font-mono text-[9px] tracking-[0.2em] uppercase">
-          <div className="text-gray-500 mb-1">RECORD ID // <span className="text-white font-bold">{result.scan_id}</span></div>
-          <div className="text-gray-500">DATABASE // <span className="text-emerald-400 font-bold">SYNCHRONIZED</span></div>
+          <div className="text-gray-500 mb-1">SCAN ID // <span className="text-white font-bold">{result.scan_id}</span></div>
+          <div className="text-gray-500">TIMESTAMP // <span className="text-[#00F0FF] font-bold">{new Date(result.created_at).toLocaleString()}</span></div>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
-        
-        {/* LEFT SIDE: Image Viewer */}
-        <motion.div variants={itemVariants} className="lg:col-span-8 flex flex-col min-h-[50vh]">
-          <GlassPanel className="p-1 flex-1 relative flex overflow-hidden">
+      <motion.div 
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0 print:hidden"
+      >
+        {/* LEFT COLUMN: IMAGE VIEWER */}
+        <div className="lg:col-span-8 flex flex-col min-h-[50vh]">
+          <GlassPanel className="p-1 flex-1 relative flex flex-col">
+            <div className="absolute top-4 left-4 z-10 flex gap-2">
+              <RiskBadge level={risk.risk_level || 'LOW'} />
+              <div className="bg-black/80 border border-[#1A2C42] px-3 py-1 rounded flex items-center text-[9px] font-mono tracking-widest uppercase shadow-md">
+                <Target className="w-3 h-3 text-[#00F0FF] mr-2" />
+                <span className="text-gray-400 mr-1">DETECTS:</span>
+                <span className="text-[#00F0FF] font-bold">{detections.length}</span>
+              </div>
+            </div>
+            
             <SonarDetectionViewer 
-              imageUrl={result?.scan_id ? `/api/history/${result.scan_id}/image` : imagePreview} 
-              detections={detections}
+              imageUrl={displayImage} 
+              detections={detections} 
               activeIndex={activeDetectionIdx}
               onHover={setActiveDetectionIdx}
             />
           </GlassPanel>
-        </motion.div>
+        </div>
 
-        {/* RIGHT SIDE: Analysis Details */}
-        <motion.div variants={itemVariants} className="lg:col-span-4 flex flex-col gap-6 overflow-y-auto pr-2 pb-6">
+        {/* RIGHT COLUMN: METADATA & ACTIONS */}
+        <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 custom-scrollbar">
           
-          <GlassPanel className="p-6 border-t-2" style={{ borderTopColor: getRiskColor(riskLevel).replace('text-', 'var(--') + ')' }}>
-            <SectionHeader icon={Activity} title="THREAT ASSESSMENT" />
-            
-            <div className="flex justify-between items-start mb-6 pb-6 border-b border-[#1A2C42]">
-              <div>
-                <div className="text-[9px] text-gray-500 font-mono tracking-[0.2em] uppercase mb-2">Classification</div>
-                <div className={`text-2xl font-bold tracking-[0.2em] uppercase flex items-center gap-3 ${getRiskColor(riskLevel)}`}>
-                  {riskLevel === 'HIGH' || riskLevel === 'CRITICAL' ? <AlertTriangle className="w-5 h-5" /> : <Shield className="w-5 h-5" />}
-                  {riskLevel}
-                </div>
+          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
+            <GlassPanel className="p-4 border-[#1A2C42]">
+              <SectionHeader icon={Shield} title="THREAT ASSESSMENT" />
+              <div className="flex items-center justify-between mt-4 mb-2">
+                <span className="text-[10px] font-mono tracking-[0.2em] text-gray-500 uppercase">CLASSIFICATION</span>
+                <span className={`text-xs font-bold tracking-widest uppercase
+                  ${risk.risk_level === 'CRITICAL' ? 'text-red-500' : 
+                    risk.risk_level === 'HIGH' ? 'text-orange-500' : 
+                    risk.risk_level === 'MEDIUM' ? 'text-amber-500' : 'text-green-500'}
+                `}>
+                  {risk.risk_level || 'LOW'}
+                </span>
               </div>
-              <div className="text-right">
-                <div className="text-[9px] text-gray-500 font-mono tracking-[0.2em] uppercase mb-2">Confidence Score</div>
-                <div className={`text-2xl font-light font-mono ${getRiskColor(riskLevel)}`}>
-                  {riskScore.toFixed(0)} <span className="text-xs text-gray-600">/ 100</span>
-                </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono tracking-[0.2em] text-gray-500 uppercase">RISK SCORE</span>
+                <span className="text-xl font-mono text-white tracking-widest">{risk.risk_score?.toFixed(1) || '0.0'}</span>
               </div>
-            </div>
+            </GlassPanel>
+          </motion.div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h4 className="text-[10px] font-mono tracking-[0.2em] text-gray-400 uppercase">
-                  DETECTED ENTITIES
-                </h4>
-                <span className="text-[10px] font-mono font-bold text-[#00F0FF]">{totalDetections}</span>
-              </div>
+          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="flex-1 flex flex-col">
+            <GlassPanel className="p-4 border-[#1A2C42] flex-1 flex flex-col">
+              <SectionHeader icon={Crosshair} title="DETECTED ENTITIES" />
               
-              {totalDetections === 0 ? (
-                <div className="p-6 border border-dashed border-[#1A2C42] text-center bg-black/20">
-                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em]">CLEAR SEABED CONSTRAINTS</span>
-                </div>
-              ) : (
-                <div className="space-y-2 max-h-[30vh] overflow-y-auto pr-2 custom-scrollbar">
-                  {detections.map((det, idx) => (
-                    <motion.div 
-                      key={idx} 
-                      whileHover={{ scale: 1.02 }}
-                      className={`p-3 border rounded transition-all duration-200 cursor-crosshair flex justify-between items-center group
-                        ${activeDetectionIdx === idx ? 'border-[#00F0FF] bg-[#00F0FF]/10' : 'border-[#1A2C42] bg-black/40 hover:border-[#00F0FF]/50'}
-                      `}
+              <div className="mt-4 flex-1 overflow-y-auto pr-2 space-y-2">
+                {detections.length === 0 ? (
+                  <div className="text-[10px] font-mono text-gray-500 text-center py-8 tracking-widest uppercase">
+                    NO TARGETS FOUND IN CURRENT SCAN
+                  </div>
+                ) : (
+                  detections.map((det, idx) => (
+                    <div 
+                      key={idx}
                       onMouseEnter={() => setActiveDetectionIdx(idx)}
                       onMouseLeave={() => setActiveDetectionIdx(null)}
+                      className={`p-3 rounded border transition-all duration-200 cursor-default
+                        ${activeDetectionIdx === idx ? 'border-[#00F0FF] bg-[#00F0FF]/10 shadow-[0_0_10px_rgba(0,240,255,0.2)]' : 'border-[#1A2C42] bg-black/40 hover:border-[#00F0FF]/40'}
+                      `}
                     >
-                      <div className="flex items-center gap-3">
-                        <Crosshair className={`w-4 h-4 transition-colors ${activeDetectionIdx === idx ? 'text-[#00F0FF]' : 'text-gray-500'}`} />
-                        <div>
-                          <div className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors ${activeDetectionIdx === idx ? 'text-white' : 'text-gray-300'}`}>
-                            {det.class_name}
-                          </div>
-                        </div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className={`text-[10px] font-bold tracking-widest uppercase ${activeDetectionIdx === idx ? 'text-white' : 'text-gray-300'}`}>
+                          {det.class_name}
+                        </span>
+                        <span className="text-[10px] font-mono text-[#00F0FF]">
+                          {(det.confidence * 100).toFixed(1)}%
+                        </span>
                       </div>
-                      <div className={`text-sm font-mono font-light transition-colors ${activeDetectionIdx === idx ? 'text-[#00F0FF]' : 'text-gray-500'}`}>
-                        {(det.confidence * 100).toFixed(1)}%
+                      
+                      <div className="grid grid-cols-2 gap-2 text-[8px] font-mono text-gray-500 tracking-widest uppercase">
+                        <div className="flex justify-between"><span>X:</span> <span>{det.x.toFixed(1)}</span></div>
+                        <div className="flex justify-between"><span>W:</span> <span>{det.width.toFixed(1)}</span></div>
+                        <div className="flex justify-between"><span>Y:</span> <span>{det.y.toFixed(1)}</span></div>
+                        <div className="flex justify-between"><span>H:</span> <span>{det.height.toFixed(1)}</span></div>
                       </div>
-                    </motion.div>
-                  ))}
+                    </div>
+                  ))
+                )}
+              </div>
+            </GlassPanel>
+          </motion.div>
+
+          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4 }}>
+            <GlassPanel className="p-4 border-[#1A2C42] mb-4">
+              <SectionHeader icon={Activity} title="METADATA" />
+              <div className="mt-4 space-y-2 text-[9px] font-mono tracking-widest uppercase">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">MODEL</span>
+                  <span className="text-[#00F0FF]">YOLO11N</span>
                 </div>
-              )}
-            </div>
-          </GlassPanel>
-          
-          <GlassPanel className="p-6 bg-[#02050A]">
-            <h3 className="text-[10px] font-mono tracking-[0.2em] text-gray-500 mb-4 uppercase">
-              METADATA
-            </h3>
-            <div className="space-y-3 text-[10px] font-mono tracking-[0.1em] uppercase">
-              <div className="flex justify-between border-b border-[#1A2C42] pb-2">
-                <span className="text-gray-600">Timestamp</span>
-                <span className="text-gray-300">{new Date(result.created_at || Date.now()).toLocaleString()}</span>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">HARDWARE</span>
+                  <span className="text-amber-500">RTX 4050</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">RESOLUTION</span>
+                  <span className="text-gray-300">640x640 Native</span>
+                </div>
               </div>
-              <div className="flex justify-between border-b border-[#1A2C42] pb-2">
-                <span className="text-gray-600">Vision Core</span>
-                <span className="text-[#00F0FF]">YOLO11n-C</span>
-              </div>
-              <div className="flex justify-between pb-1">
-                <span className="text-gray-600">Resolution</span>
-                <span className="text-gray-300">640x640 Native</span>
-              </div>
-            </div>
-          </GlassPanel>
+            </GlassPanel>
 
-          <div className="flex gap-3 mt-auto">
-            <GlowButton onClick={() => navigate('/history')} className="flex-1 py-3 text-[9px]">
-              ARCHIVE
-            </GlowButton>
-            <GlowButton onClick={() => navigate('/reports')} className="flex-1 py-3 text-[9px]">
-              <Download className="w-3 h-3 mr-2" /> EXPORT
-            </GlowButton>
-          </div>
+            {exportErrorMsg && (
+              <div className="mb-2 p-2 border border-red-500/50 bg-red-500/10 text-red-500 text-[9px] font-mono tracking-widest text-center uppercase rounded animate-pulse">
+                {exportErrorMsg}
+              </div>
+            )}
 
-        </motion.div>
-      </div>
-    </motion.div>
+            <div className="flex gap-3 mt-auto">
+              <GlowButton onClick={() => navigate('/history')} className="flex-1 py-3 text-[9px]">
+                ARCHIVE
+              </GlowButton>
+              <GlowButton 
+                onClick={handleExport} 
+                disabled={exportState === 'EXPORTING'}
+                className={`flex-1 py-3 text-[9px] ${
+                  exportState === 'EXPORTING' ? 'opacity-50 cursor-not-allowed' : 
+                  exportState === 'FAILED' ? 'border-red-500 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:border-red-500 hover:bg-red-500/10' :
+                  exportState === 'EXPORTED' ? 'border-green-500 text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)] hover:border-green-500 hover:bg-green-500/10' : ''
+                }`}
+              >
+                {exportState === 'EXPORTING' ? (
+                  <span className="flex items-center justify-center"><div className="w-3 h-3 mr-2 border-2 border-current border-t-transparent rounded-full animate-spin" /> EXPORTING...</span>
+                ) : exportState === 'EXPORTED' ? (
+                  <span className="flex items-center justify-center"><CheckCircle className="w-3 h-3 mr-2" /> EXPORTED</span>
+                ) : exportState === 'FAILED' ? (
+                  <span className="flex items-center justify-center"><AlertTriangle className="w-3 h-3 mr-2" /> EXPORT FAILED</span>
+                ) : (
+                  <span className="flex items-center justify-center"><Download className="w-3 h-3 mr-2" /> EXPORT</span>
+                )}
+              </GlowButton>
+            </div>
+
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
