@@ -33,6 +33,8 @@ outputs/*
 !outputs/.gitkeep
 *.sqlite3
 *.db
+*.backup
+*.db.backup
 
 # Virtual Envs
 .venv-yolo/

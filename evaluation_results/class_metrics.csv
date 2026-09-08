@@ -1,0 +1,5 @@
+Class,GroundTruthInstances,YOLO_Precision,YOLO_Recall,YOLO_F1,YOLO_mAP50,YOLO_mAP50_95,MeanEvidenceScore,MeanUncertaintyScore
+airplane,17,0.7333,0.6471,0.6875,0.6167,0.406,60.21,35.96
+mine,38,0.3448,0.2632,0.2985,0.2413,0.0795,76.64,37.05
+drowning victim,37,0.3333,0.1892,0.2414,0.0712,0.0195,65.91,48.81
+wreck,80,0.7143,0.875,0.7865,0.8402,0.5799,67.89,26.31

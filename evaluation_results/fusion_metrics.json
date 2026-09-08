@@ -1,0 +1,161 @@
+{
+  "experiment": "PHASE_8_EVIDENCE_FUSION_BENCHMARK",
+  "description": "Additive, deterministic operational triage ranking benchmark against 110 validation images",
+  "total_images_evaluated": 110,
+  "total_ground_truth_instances": 172,
+  "total_predictions_evaluated": 158,
+  "ground_truth_matching": {
+    "true_positives": 97,
+    "false_positives": 61,
+    "false_negatives": 75
+  },
+  "critical_target_recall_comparison": {
+    "top_5": {
+      "yolo_critical_tps_captured": 2,
+      "fusion_critical_tps_captured": 5,
+      "yolo_critical_recall": 0.0267,
+      "fusion_critical_recall": 0.0667,
+      "critical_recall_delta": 0.04
+    },
+    "top_10": {
+      "yolo_critical_tps_captured": 3,
+      "fusion_critical_tps_captured": 9,
+      "yolo_critical_recall": 0.04,
+      "fusion_critical_recall": 0.12,
+      "critical_recall_delta": 0.08
+    },
+    "top_20": {
+      "yolo_critical_tps_captured": 5,
+      "fusion_critical_tps_captured": 11,
+      "yolo_critical_recall": 0.0667,
+      "fusion_critical_recall": 0.1467,
+      "critical_recall_delta": 0.08
+    },
+    "top_30": {
+      "yolo_critical_tps_captured": 5,
+      "fusion_critical_tps_captured": 11,
+      "yolo_critical_recall": 0.0667,
+      "fusion_critical_recall": 0.1467,
+      "critical_recall_delta": 0.08
+    },
+    "top_50": {
+      "yolo_critical_tps_captured": 6,
+      "fusion_critical_tps_captured": 11,
+      "yolo_critical_recall": 0.08,
+      "fusion_critical_recall": 0.1467,
+      "critical_recall_delta": 0.0667
+    },
+    "top_75": {
+      "yolo_critical_tps_captured": 8,
+      "fusion_critical_tps_captured": 13,
+      "yolo_critical_recall": 0.1067,
+      "fusion_critical_recall": 0.1733,
+      "critical_recall_delta": 0.0667
+    },
+    "top_100": {
+      "yolo_critical_tps_captured": 10,
+      "fusion_critical_tps_captured": 14,
+      "yolo_critical_recall": 0.1333,
+      "fusion_critical_recall": 0.1867,
+      "critical_recall_delta": 0.0533
+    }
+  },
+  "ranking_summary": {
+    "true_positives": {
+      "count": 97,
+      "mean_rank_yolo": 56.3,
+      "mean_rank_fusion": 70.63,
+      "median_rank_yolo": 51.0,
+      "median_rank_fusion": 66.0
+    },
+    "false_positives": {
+      "count": 61,
+      "mean_rank_yolo": 116.39,
+      "mean_rank_fusion": 93.61,
+      "median_rank_yolo": 120.0,
+      "median_rank_fusion": 98.0
+    },
+    "critical_true_positives": {
+      "count": 16,
+      "mean_rank_yolo": 75.88,
+      "mean_rank_fusion": 34.25,
+      "median_rank_yolo": 79.0,
+      "median_rank_fusion": 9.0,
+      "mean_rank_improvement": 41.62
+    }
+  },
+  "tier_precision_breakdown": {
+    "IMMEDIATE_ACTION": {
+      "total_detections": 12,
+      "true_positives": 10,
+      "false_positives": 2,
+      "precision": 83.33
+    },
+    "REVIEW_REQUIRED": {
+      "total_detections": 109,
+      "true_positives": 73,
+      "false_positives": 36,
+      "precision": 66.97
+    },
+    "DEFERRED_INSPECTION": {
+      "total_detections": 37,
+      "true_positives": 14,
+      "false_positives": 23,
+      "precision": 37.84
+    }
+  },
+  "discrepancy_analysis": {
+    "discrepancy_threshold_delta": 50.0,
+    "total_discrepant_detections": 0,
+    "discrepant_true_positives": 0,
+    "discrepant_false_positives": 0,
+    "false_positive_prevalence_in_discrepancies": 0.0,
+    "mean_rank_penalty_applied": 10.0
+  },
+  "class_summary": {
+    "airplane": {
+      "hazard_multiplier": 0.9,
+      "ground_truth_instances": 17,
+      "total_detections": 14,
+      "true_positives": 11,
+      "false_positives": 3,
+      "mean_priority_score": 50.71,
+      "mean_tp_yolo_rank": 75.27,
+      "mean_tp_fusion_rank": 67.55,
+      "mean_rank_delta": 7.73
+    },
+    "mine": {
+      "hazard_multiplier": 1.15,
+      "ground_truth_instances": 38,
+      "total_detections": 32,
+      "true_positives": 10,
+      "false_positives": 22,
+      "mean_priority_score": 65.33,
+      "mean_tp_yolo_rank": 48.5,
+      "mean_tp_fusion_rank": 17.0,
+      "mean_rank_delta": 31.5
+    },
+    "drowning victim": {
+      "hazard_multiplier": 1.1,
+      "ground_truth_instances": 37,
+      "total_detections": 18,
+      "true_positives": 6,
+      "false_positives": 12,
+      "mean_priority_score": 52.95,
+      "mean_tp_yolo_rank": 121.5,
+      "mean_tp_fusion_rank": 63.0,
+      "mean_rank_delta": 58.5
+    },
+    "wreck": {
+      "hazard_multiplier": 0.75,
+      "ground_truth_instances": 80,
+      "total_detections": 94,
+      "true_positives": 70,
+      "false_positives": 24,
+      "mean_priority_score": 48.3,
+      "mean_tp_yolo_rank": 48.84,
+      "mean_tp_fusion_rank": 79.43,
+      "mean_rank_delta": -30.59
+    }
+  }
+}

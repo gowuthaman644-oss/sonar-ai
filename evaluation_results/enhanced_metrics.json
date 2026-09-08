@@ -1,0 +1,460 @@
+{
+  "experiment": "EXPERIMENT_B_SONAR_AI_ENHANCED",
+  "description": "Downstream operational intelligence evaluation on authentic validation set",
+  "dataset_images_evaluated": 110,
+  "total_ai_detections": 158,
+  "evidence_metrics": {
+    "mean_evidence_score": 68.76,
+    "median_evidence_score": 68.8,
+    "std_evidence_score": 11.12,
+    "min_evidence_score": 47.9,
+    "max_evidence_score": 93.9,
+    "confidence_evidence_correlation": 0.0689,
+    "evidence_status_distribution": {
+      "STRONG_EVIDENCE": 72,
+      "MODERATE_EVIDENCE": 86,
+      "WEAK_EVIDENCE": 0,
+      "INSUFFICIENT_EVIDENCE": 0
+    }
+  },
+  "uncertainty_metrics": {
+    "mean_uncertainty_score": 31.9,
+    "uncertainty_level_distribution": {
+      "LOW": 73,
+      "MEDIUM": 0,
+      "HIGH": 0,
+      "CRITICAL": 0,
+      "MODERATE": 85
+    }
+  },
+  "contact_triage_metrics": {
+    "contact_type_distribution": {
+      "KNOWN_TARGET": 119,
+      "LOW_EVIDENCE_CONTACT": 0,
+      "UNCLASSIFIED_CONTACT": 0,
+      "PROVISIONAL_TARGET": 39
+    },
+    "potential_clutter_triage_candidates": 0
+  },
+  "risk_assessment_metrics": {
+    "mean_scan_risk_score": 43.96,
+    "risk_level_distribution": {
+      "LOW": 36,
+      "MEDIUM": 63,
+      "HIGH": 11,
+      "CRITICAL": 0
+    }
+  },
+  "class_intelligence_summary": {
+    "airplane": {
+      "total_detections": 14,
+      "mean_confidence": 0.6499,
+      "mean_evidence_score": 60.21,
+      "std_evidence_score": 6.89,
+      "mean_uncertainty_score": 35.96
+    },
+    "mine": {
+      "total_detections": 32,
+      "mean_confidence": 0.5203,
+      "mean_evidence_score": 76.64,
+      "std_evidence_score": 11.26,
+      "mean_uncertainty_score": 37.05
+    },
+    "drowning victim": {
+      "total_detections": 18,
+      "mean_confidence": 0.4108,
+      "mean_evidence_score": 65.91,
+      "std_evidence_score": 8.95,
+      "mean_uncertainty_score": 48.81
+    },
+    "wreck": {
+      "total_detections": 94,
+      "mean_confidence": 0.7523,
+      "mean_evidence_score": 67.89,
+      "std_evidence_score": 10.39,
+      "mean_uncertainty_score": 26.31
+    }
+  },
+  "detections_sample": [
+    {
+      "image": "000008_jpg.rf.9fcda58b0c5acab328c191a8bd4ebd7d.jpg",
+      "class_name": "airplane",
+      "confidence": 0.702,
+      "bbox": {
+        "x": 51.432373046875,
+        "y": 29.9544677734375,
+        "width": 472.2081298828125,
+        "height": 512.8543701171875
+      },
+      "evidence_score": 62.5,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 26.9,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000010_jpg.rf.efb6cf8c3257d078e4fffc1451283b5b.jpg",
+      "class_name": "airplane",
+      "confidence": 0.8353,
+      "bbox": {
+        "x": 193.25164794921875,
+        "y": 205.231689453125,
+        "width": 254.3336181640625,
+        "height": 296.80950927734375
+      },
+      "evidence_score": 61.0,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 22.2,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000015_jpg.rf.47c73e8904dd302e7cefbacfb9d2f52d.jpg",
+      "class_name": "wreck",
+      "confidence": 0.6431,
+      "bbox": {
+        "x": 108.18880462646484,
+        "y": 96.52021789550781,
+        "width": 192.75873565673828,
+        "height": 427.88511657714844
+      },
+      "evidence_score": 64.4,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 28.5,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000015_jpg.rf.47c73e8904dd302e7cefbacfb9d2f52d.jpg",
+      "class_name": "airplane",
+      "confidence": 0.5785,
+      "bbox": {
+        "x": 106.61711883544922,
+        "y": 94.99415588378906,
+        "width": 195.67755889892578,
+        "height": 427.86131286621094
+      },
+      "evidence_score": 64.2,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 39.0,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000024_jpg.rf.1b115b87803c433f853eeecee0df58b4.jpg",
+      "class_name": "airplane",
+      "confidence": 0.3868,
+      "bbox": {
+        "x": 180.874755859375,
+        "y": 229.479248046875,
+        "width": 220.5609130859375,
+        "height": 216.97540283203125
+      },
+      "evidence_score": 65.0,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 50.3,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000032_jpg.rf.830934e9aec278a1aac2c775b2bf7e63.jpg",
+      "class_name": "airplane",
+      "confidence": 0.8832,
+      "bbox": {
+        "x": 27.3824462890625,
+        "y": 81.06524658203125,
+        "width": 459.080322265625,
+        "height": 495.58514404296875
+      },
+      "evidence_score": 61.2,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 20.2,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000041_jpg.rf.cdc982398ad34aea28aa660cd2ac6ed0.jpg",
+      "class_name": "wreck",
+      "confidence": 0.4984,
+      "bbox": {
+        "x": 180.7903289794922,
+        "y": 146.4798583984375,
+        "width": 231.87379455566406,
+        "height": 430.76727294921875
+      },
+      "evidence_score": 51.7,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 49.2,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000041_jpg.rf.cdc982398ad34aea28aa660cd2ac6ed0.jpg",
+      "class_name": "airplane",
+      "confidence": 0.3017,
+      "bbox": {
+        "x": 181.40103149414062,
+        "y": 142.687255859375,
+        "width": 227.0811767578125,
+        "height": 455.4530029296875
+      },
+      "evidence_score": 51.5,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 59.2,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000046_jpg.rf.4023dcae9c4e27e34f6be32dfa2ecd53.jpg",
+      "class_name": "wreck",
+      "confidence": 0.4929,
+      "bbox": {
+        "x": 251.665283203125,
+        "y": 16.383636474609375,
+        "width": 149.80230712890625,
+        "height": 285.69866943359375
+      },
+      "evidence_score": 69.6,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 47.7,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000046_jpg.rf.4023dcae9c4e27e34f6be32dfa2ecd53.jpg",
+      "class_name": "drowning victim",
+      "confidence": 0.4335,
+      "bbox": {
+        "x": 250.34107971191406,
+        "y": 19.03570556640625,
+        "width": 151.70469665527344,
+        "height": 287.9963684082031
+      },
+      "evidence_score": 70.0,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 49.2,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000050_jpg.rf.26a57a4c930c01d10b34e2a40c4f1fe4.jpg",
+      "class_name": "drowning victim",
+      "confidence": 0.3617,
+      "bbox": {
+        "x": 313.14886474609375,
+        "y": 268.19110107421875,
+        "width": 140.905029296875,
+        "height": 209.350830078125
+      },
+      "evidence_score": 76.9,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 51.0,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000071_jpg.rf.8ea06a81b8debfcdd1d722fd9f0fcab3.jpg",
+      "class_name": "airplane",
+      "confidence": 0.6694,
+      "bbox": {
+        "x": 57.85577392578125,
+        "y": 62.7957763671875,
+        "width": 533.6014404296875,
+        "height": 576.51171875
+      },
+      "evidence_score": 54.2,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 39.4,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000074_jpg.rf.a3b1f80cc9cbb52615000900fc2034ca.jpg",
+      "class_name": "airplane",
+      "confidence": 0.777,
+      "bbox": {
+        "x": 0.0,
+        "y": 121.15313720703125,
+        "width": 584.04736328125,
+        "height": 448.98492431640625
+      },
+      "evidence_score": 75.0,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 18.9,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000087_jpg.rf.c04c2f079ad52a1e4374352a6e4d348e.jpg",
+      "class_name": "airplane",
+      "confidence": 0.8682,
+      "bbox": {
+        "x": 141.7340087890625,
+        "y": 48.44035339355469,
+        "width": 275.4996337890625,
+        "height": 442.67530822753906
+      },
+      "evidence_score": 56.5,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 28.3,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000101_jpg.rf.ecbf1099f121a10fc29d2aba186fea28.jpg",
+      "class_name": "airplane",
+      "confidence": 0.8713,
+      "bbox": {
+        "x": 81.04782104492188,
+        "y": 0.0,
+        "width": 412.67633056640625,
+        "height": 529.41162109375
+      },
+      "evidence_score": 53.3,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 29.8,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000111_jpg.rf.87a301974fe3491aec102012f1be7ab3.jpg",
+      "class_name": "airplane",
+      "confidence": 0.8587,
+      "bbox": {
+        "x": 6.586151123046875,
+        "y": 139.36614990234375,
+        "width": 403.93304443359375,
+        "height": 387.50653076171875
+      },
+      "evidence_score": 48.4,
+      "evidence_status": "MODERATE_EVIDENCE",
+      "contact_type": "PROVISIONAL_TARGET",
+      "uncertainty_level": "MODERATE",
+      "uncertainty_score": 32.9,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg",
+      "class_name": "mine",
+      "confidence": 0.966,
+      "bbox": {
+        "x": 54.94075012207031,
+        "y": 101.25692749023438,
+        "width": 101.68901062011719,
+        "height": 31.447113037109375
+      },
+      "evidence_score": 91.0,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 5.0,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg",
+      "class_name": "mine",
+      "confidence": 0.9627,
+      "bbox": {
+        "x": 340.39910888671875,
+        "y": 178.70297241210938,
+        "width": 43.4473876953125,
+        "height": 60.330169677734375
+      },
+      "evidence_score": 85.4,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 7.3,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg",
+      "class_name": "mine",
+      "confidence": 0.9516,
+      "bbox": {
+        "x": 145.87728881835938,
+        "y": 33.6373291015625,
+        "width": 95.73272705078125,
+        "height": 29.14031982421875
+      },
+      "evidence_score": 81.7,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 9.3,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    },
+    {
+      "image": "000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg",
+      "class_name": "mine",
+      "confidence": 0.6793,
+      "bbox": {
+        "x": 486.185791015625,
+        "y": 189.62185668945312,
+        "width": 121.2586669921875,
+        "height": 19.21429443359375
+      },
+      "evidence_score": 93.9,
+      "evidence_status": "STRONG_EVIDENCE",
+      "contact_type": "KNOWN_TARGET",
+      "uncertainty_level": "LOW",
+      "uncertainty_score": 15.3,
+      "snr_db": 0.0,
+      "tbcr": 0.0,
+      "shadow_contrast": 0.0
+    }
+  ]
+}

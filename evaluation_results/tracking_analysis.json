@@ -1,0 +1,6 @@
+{
+  "status": "NO_OBSERVATIONS",
+  "total_persistent_tracks": 0,
+  "message": "No production persistent-contact observations are currently available.",
+  "spatial_telemetry_limitation": "The tracking engine operates strictly in 2D normalized image-plane coordinates across sequential sonar frames. It does NOT fabricate or represent geographic/GPS movement."
+}

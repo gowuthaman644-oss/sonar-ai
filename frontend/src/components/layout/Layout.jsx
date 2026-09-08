@@ -87,37 +87,28 @@ export default function Layout() {
 
       {/* Sidebar */}
       <div className={`
-        fixed md:relative inset-y-0 left-0 z-40 w-72 bg-[rgba(2,15,17,0.78)] backdrop-blur-[6px] border-r border-[rgba(32,220,197,0.18)] transform transition-transform duration-300 ease-in-out flex flex-col shadow-[10px_0_30px_rgba(0,0,0,0.5)]
+        fixed md:relative inset-y-0 left-0 z-40 w-68 bg-[rgba(2,15,17,0.85)] backdrop-blur-[12px] border-r border-[rgba(32,220,197,0.18)] transform transition-transform duration-300 ease-in-out flex flex-col shadow-[10px_0_35px_rgba(0,0,0,0.6)]
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         {/* Brand Header */}
-        <div className="px-6 py-8 flex items-center gap-4 relative overflow-hidden">
-          <div className="relative w-12 h-12 flex items-center justify-center border border-[#20DCC5]/30 rounded-full shadow-[0_0_15px_rgba(40,224,196,0.15)] bg-[rgba(2,15,17,0.85)]">
-            <div className="absolute inset-2 border border-[#D6A84F]/30 rounded-full animate-[spin_10s_linear_infinite]" />
-            <div className="absolute inset-4 bg-[#20DCC5] rounded-full blur-[2px] opacity-20" />
+        <div className="px-5 py-6 flex items-center gap-3.5 relative overflow-hidden border-b border-[rgba(32,220,197,0.12)]">
+          <div className="relative w-10 h-10 flex items-center justify-center border border-[rgba(32,220,197,0.30)] rounded bg-[rgba(4,25,27,0.90)] shadow-[0_0_15px_rgba(32,220,197,0.15)] flex-shrink-0">
+            <div className="absolute inset-1 border border-[#D6A84F]/20 rounded-sm animate-[spin_12s_linear_infinite]" />
             <Radar className="w-5 h-5 text-[#20DCC5]" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold tracking-[0.2em] text-[#F2F7F5] text-xl leading-tight">SONAR-AI</span>
-            <span className="text-[8px] font-mono tracking-[0.3em] text-[#20DCC5] uppercase mt-1">OCEAN INTELLIGENCE SYSTEM</span>
+            <span className="font-bold tracking-[0.22em] text-[#F2F7F5] text-base leading-tight font-mono">SONAR-AI</span>
+            <span className="text-[7.5px] font-mono tracking-[0.25em] text-[#20DCC5] uppercase mt-0.5">UNDERWATER INTELLIGENCE</span>
           </div>
         </div>
 
-        {/* System Telemetry */}
-        <div className="px-6 pb-6">
-          <div className="border border-[rgba(32,220,197,0.18)] bg-[rgba(4,25,27,0.68)] backdrop-blur-[6px] rounded-lg p-4 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-8 h-8 bg-[#20DCC5]/10 blur-xl rounded-full" />
-            <div className="text-[8px] font-mono tracking-widest text-[#607874] uppercase mb-3">SYSTEM STATUS</div>
-            <div className="flex items-center justify-between">
-              <div className="font-mono text-sm tracking-widest text-[#20DCC5] font-bold">OPERATIONAL</div>
-              <Activity className="w-4 h-4 text-[#20DCC5] animate-pulse" />
-            </div>
-            <div className="text-[9px] text-[#607874] mt-2">All systems nominal</div>
-          </div>
+        {/* Section Label: Navigation */}
+        <div className="px-5 pt-4 pb-1">
+          <span className="text-[8px] font-mono tracking-[0.25em] text-[#607874] uppercase">MISSION CONTROLS</span>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 px-3 py-1 space-y-1 overflow-y-auto custom-scrollbar">
           {navItems.map((item) => {
             const isActive = item.path === '/results' 
                 ? location.pathname.startsWith('/results') 
@@ -137,24 +128,24 @@ export default function Layout() {
                   setMobileMenuOpen(false);
                 }}
                 className={`
-                  flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-[180ms] ease-out group relative
+                  flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all duration-[160ms] ease-out group relative select-none
                   ${isActive 
-                    ? 'bg-gradient-to-r from-[rgba(32,220,197,0.15)] to-transparent border border-[rgba(32,220,197,0.30)] shadow-[inset_3px_0_0_#20DCC5]' 
-                    : 'border border-transparent hover:bg-[rgba(32,220,197,0.07)] hover:border-[rgba(32,220,197,0.25)] hover:translate-x-[2px]'
+                    ? 'bg-gradient-to-r from-[rgba(32,220,197,0.16)] to-[rgba(32,220,197,0.03)] border border-[rgba(32,220,197,0.35)] shadow-[0_0_15px_rgba(32,220,197,0.08)]' 
+                    : 'border border-transparent hover:bg-[rgba(32,220,197,0.06)] hover:border-[rgba(32,220,197,0.20)] text-[#A8BDB9]'
                   }
                 `}
               >
                 {isActive && (
-                  <motion.div layoutId="nav-indicator" className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-[#20DCC5] rounded-full shadow-[0_0_10px_rgba(32,220,197,0.8)]" />
+                  <motion.div layoutId="nav-indicator" className="absolute left-0 top-2 bottom-2 w-1 bg-[#20DCC5] rounded-r shadow-[0_0_8px_rgba(32,220,197,0.8)]" />
                 )}
                 
-                <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-[#20DCC5]' : 'text-[#607874] group-hover:text-[#20DCC5]'}`} />
+                <item.icon className={`w-4 h-4 transition-colors flex-shrink-0 ${isActive ? 'text-[#20DCC5]' : 'text-[#607874] group-hover:text-[#20DCC5]'}`} />
                 
-                <div className="flex flex-col">
-                  <span className={`text-xs font-bold tracking-widest uppercase ${isActive ? 'text-[#F2F7F5]' : 'text-[#A8BDB9] group-hover:text-gray-200'}`}>
+                <div className="flex flex-col min-w-0">
+                  <span className={`text-[11px] font-bold tracking-[0.14em] uppercase font-mono truncate ${isActive ? 'text-[#F2F7F5]' : 'text-[#A8BDB9] group-hover:text-[#F2F7F5]'}`}>
                     {item.label}
                   </span>
-                  <span className={`text-[9px] font-medium tracking-wide ${isActive ? 'text-[#20DCC5]' : 'text-[#607874]'}`}>
+                  <span className={`text-[8.5px] font-mono tracking-wider truncate ${isActive ? 'text-[#20DCC5]' : 'text-[#607874]'}`}>
                     {item.sub}
                   </span>
                 </div>
@@ -163,23 +154,32 @@ export default function Layout() {
           })}
         </nav>
 
+        {/* System Status Banner */}
+        <div className="px-4 py-3 border-t border-[rgba(32,220,197,0.12)] bg-black/20">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[9px] font-mono tracking-widest text-[#A8BDB9] uppercase font-bold">SYSTEM ONLINE</span>
+            </div>
+            <span className="text-[8px] font-mono text-[#20DCC5] border border-[#20DCC5]/30 px-1.5 py-0.5 rounded bg-[#20DCC5]/10">YOLO11n</span>
+          </div>
+        </div>
+
         {/* Footer / Operator Profile Button */}
         <div 
           onClick={() => setOperatorModalOpen(true)}
-          className="p-6 border-t border-[#0F6F70] flex items-center justify-between cursor-pointer hover:bg-[rgba(32,220,197,0.06)] transition-colors group"
+          className="p-3.5 border-t border-[rgba(32,220,197,0.12)] flex items-center justify-between cursor-pointer hover:bg-[rgba(32,220,197,0.06)] transition-colors group select-none"
         >
-           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 bg-[#D6A84F]/10 rounded-full flex items-center justify-center border border-[#D6A84F]/30 group-hover:border-[#D6A84F]">
+           <div className="flex items-center gap-2.5">
+             <div className="w-7 h-7 bg-[#D6A84F]/10 rounded flex items-center justify-center border border-[#D6A84F]/30 group-hover:border-[#D6A84F] transition-colors">
                <div className="w-1.5 h-1.5 bg-[#D6A84F] rounded-full shadow-[0_0_5px_#D6A84F]" />
              </div>
              <div className="flex flex-col">
-               <span className="text-[10px] font-bold tracking-widest text-[#F2F7F5] uppercase group-hover:text-[#20DCC5] transition-colors">OPERATOR</span>
-               <span className="text-[9px] text-[#607874] flex items-center gap-1 mt-1 font-mono">
-                 <div className="w-1 h-1 bg-[#20DCC5] rounded-full animate-pulse" /> ONLINE
-               </span>
+               <span className="text-[9.5px] font-mono font-bold tracking-widest text-[#F2F7F5] uppercase group-hover:text-[#20DCC5] transition-colors">OPERATOR ACTIVE</span>
+               <span className="text-[8px] text-[#607874] font-mono">MISSION CONSOLE</span>
              </div>
            </div>
-           <span className="text-[8px] font-mono text-[#607874] group-hover:text-[#20DCC5] uppercase tracking-widest">PROFILE &rarr;</span>
+           <span className="text-[8px] font-mono text-[#607874] group-hover:text-[#20DCC5] uppercase tracking-widest">&rarr;</span>
         </div>
       </div>
 

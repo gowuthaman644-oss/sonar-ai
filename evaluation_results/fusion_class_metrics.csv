@@ -1,0 +1,5 @@
+Class,HazardMultiplier,GroundTruth,Predictions,TP,FP,MeanPriorityScore,MeanYOLORank_TP,MeanFusionRank_TP,RankImprovement
+airplane,0.9,17,14,11,3,50.71,75.27,67.55,7.73
+mine,1.15,38,32,10,22,65.33,48.5,17.0,31.5
+drowning victim,1.1,37,18,6,12,52.95,121.5,63.0,58.5
+wreck,0.75,80,94,70,24,48.3,48.84,79.43,-30.59

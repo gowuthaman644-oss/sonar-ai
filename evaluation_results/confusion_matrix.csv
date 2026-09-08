@@ -1,0 +1,6 @@
+Actual \ Predicted,airplane,mine,drowning victim,wreck,background
+airplane,10.0,0.0,1.0,2.0,2.0
+mine,0.0,8.0,0.0,0.0,21.0
+drowning victim,2.0,2.0,7.0,2.0,8.0
+wreck,1.0,1.0,7.0,68.0,21.0
+background,4.0,27.0,22.0,8.0,0.0

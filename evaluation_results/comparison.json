@@ -1,0 +1,59 @@
+{
+  "evaluation_title": "SONAR-AI Experimental Evaluation: Baseline YOLO11n vs Enhanced Multi-Layer Architecture",
+  "dataset": {
+    "name": "side-scan-sonar-object-detection-challenge",
+    "split": "val",
+    "image_count": 110,
+    "total_ground_truth_instances": 172
+  },
+  "detection_performance_comparison": {
+    "explanation": "The enhanced intelligence layers (Acoustic Evidence, Uncertainty, Risk Engine V2, Persistent Tracking) operate downstream of YOLO inference and provide operational decision support without directly modifying raw bounding box coordinates or detector mAP.",
+    "metrics": {
+      "precision": {
+        "yolo11n_baseline": 0.5314,
+        "sonar_ai_enhanced": 0.5314,
+        "difference": 0.0
+      },
+      "recall": {
+        "yolo11n_baseline": 0.4936,
+        "sonar_ai_enhanced": 0.4936,
+        "difference": 0.0
+      },
+      "f1": {
+        "yolo11n_baseline": 0.5118,
+        "sonar_ai_enhanced": 0.5118,
+        "difference": 0.0
+      },
+      "map50": {
+        "yolo11n_baseline": 0.4424,
+        "sonar_ai_enhanced": 0.4424,
+        "difference": 0.0
+      },
+      "map50_95": {
+        "yolo11n_baseline": 0.2712,
+        "sonar_ai_enhanced": 0.2712,
+        "difference": 0.0
+      }
+    }
+  },
+  "operational_intelligence_evaluation": {
+    "total_ai_detections_evaluated": 158,
+    "mean_evidence_score": 68.76,
+    "confidence_evidence_correlation": 0.0689,
+    "evidence_status_breakdown": {
+      "STRONG_EVIDENCE": 72,
+      "MODERATE_EVIDENCE": 86,
+      "WEAK_EVIDENCE": 0,
+      "INSUFFICIENT_EVIDENCE": 0
+    },
+    "uncertainty_breakdown": {
+      "LOW": 73,
+      "MEDIUM": 0,
+      "HIGH": 0,
+      "CRITICAL": 0,
+      "MODERATE": 85
+    },
+    "potential_clutter_triage_candidates": 0,
+    "mean_mission_risk_score": 43.96
+  }
+}

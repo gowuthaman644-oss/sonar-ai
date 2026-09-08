@@ -1,0 +1,11 @@
+{
+  "status": "NO_OBSERVATIONS",
+  "total_feedback_records": 0,
+  "message": "No human-verification observations are currently available for statistical evaluation.",
+  "operator_decisions": {
+    "CONFIRM": 0,
+    "REJECT": 0,
+    "UNCERTAIN": 0
+  },
+  "disagreement_rate": null
+}

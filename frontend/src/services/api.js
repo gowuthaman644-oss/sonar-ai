@@ -30,4 +30,29 @@ export const analyzeSonar = async (file) => {
   return response.data;
 };
 
+export const getTracks = async () => {
+  const response = await api.get('/tracks');
+  return response.data;
+};
+
+export const getTrackDetail = async (trackId) => {
+  const response = await api.get(`/tracks/${trackId}`);
+  return response.data;
+};
+
+export const submitOperatorFeedback = async ({ detectionId, decision, reason, notes }) => {
+  const response = await api.post('/feedback', {
+    detection_id: detectionId,
+    decision,
+    reason,
+    notes,
+  });
+  return response.data;
+};
+
+export const getOperatorFeedback = async (detectionId) => {
+  const response = await api.get(`/feedback/${detectionId}`);
+  return response.data;
+};
+
 export default api;

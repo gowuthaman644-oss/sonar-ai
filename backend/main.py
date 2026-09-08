@@ -3,11 +3,13 @@ from fastapi import FastAPI
 from backend.api.analyze import router as analyze_router
 from backend.api.history import router as history_router
 from backend.api.stats import router as stats_router
+from backend.api.feedback import router as feedback_router
 
 from backend.database.database import Base, engine
 from backend.database import models
+from backend.database.migration import run_db_migrations
 
-Base.metadata.create_all(bind=engine)
+run_db_migrations()
 
 app = FastAPI(
     title="SONAR-AI API",
@@ -18,6 +20,7 @@ app = FastAPI(
 app.include_router(analyze_router)
 app.include_router(history_router)
 app.include_router(stats_router)
+app.include_router(feedback_router)
 
 
 @app.get("/")
@@ -30,6 +33,7 @@ def root():
 
 
 @app.get("/health")
+@app.get("/api/health")
 def health():
 
     return {

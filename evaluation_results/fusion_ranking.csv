@@ -1,0 +1,159 @@
+Detection_ID,Image,Class,YOLO_Conf,Evidence_Score,Discrepancy_Delta,Priority_Score,Priority_Tier,Scan_Rank,Global_Fusion_Rank,Global_YOLO_Rank,Rank_Delta,Is_True_Positive,Matched_IoU,Triage_Rationale
+1,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,mine,96.6,91.0,0.0,97.1,IMMEDIATE_ACTION,1,1,5,4,1,0.8498,High-priority Mine candidate with strong acoustic evidence.
+2,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,mine,96.27,85.4,0.0,94.0,IMMEDIATE_ACTION,2,2,8,6,1,0.6216,High-priority Mine candidate with strong acoustic evidence.
+3,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,mine,95.16,81.7,0.0,91.5,IMMEDIATE_ACTION,3,3,11,8,1,0.7132,High-priority Mine candidate with strong acoustic evidence.
+4,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,93.92,78.6,0.0,89.3,IMMEDIATE_ACTION,1,4,16,12,1,0.8161,High-priority Mine candidate with strong acoustic evidence.
+5,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,96.67,75.9,0.0,89.3,IMMEDIATE_ACTION,2,5,4,-1,1,0.6618,High-priority Mine candidate with strong acoustic evidence.
+6,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,87.4,84.1,0.0,88.7,IMMEDIATE_ACTION,3,6,40,34,1,0.5929,High-priority Mine candidate with strong acoustic evidence.
+7,000132_jpg.rf.f2ba423ba22a7c3e4d7700d635aab568.jpg,mine,74.12,91.5,0.0,85.7,IMMEDIATE_ACTION,1,7,75,68,1,0.7361,High-priority Mine candidate with strong acoustic evidence.
+8,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,mine,67.93,93.9,0.0,83.7,IMMEDIATE_ACTION,4,8,83,75,1,0.5345,High-priority Mine candidate with strong acoustic evidence.
+9,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,68.48,82.8,0.0,78.3,IMMEDIATE_ACTION,1,9,82,73,0,0.0,High-priority Mine candidate with strong acoustic evidence.
+10,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,64.35,81.4,0.0,75.4,IMMEDIATE_ACTION,4,10,88,78,1,0.6798,High-priority Mine candidate with strong acoustic evidence.
+11,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,51.87,90.4,0.0,73.6,IMMEDIATE_ACTION,5,11,110,99,0,0.0,High-priority Mine candidate with strong acoustic evidence.
+12,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,78.54,62.9,0.0,70.0,IMMEDIATE_ACTION,1,12,65,53,1,0.5877,High-priority Drowning victim candidate with strong acoustic evidence.
+13,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,61.18,71.5,0.0,68.7,REVIEW_REQUIRED,2,13,94,81,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+14,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,54.96,77.7,0.0,68.6,REVIEW_REQUIRED,6,14,105,91,0,0.4113,Subsurface mine hazard candidate requiring manual analyst verification.
+15,000253_jpg.rf.b01c6bf31461983988c07843e05a7d5c.jpg,mine,44.13,87.6,0.0,68.2,REVIEW_REQUIRED,1,15,115,100,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+16,000146_jpg.rf.8fa6423856373435557a610e09ac9f21.jpg,mine,59.81,69.0,0.0,66.7,REVIEW_REQUIRED,1,16,96,80,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+17,000503_jpg.rf.6a9f7d8380ce2e07f5ca7f5c2604ecef.jpg,drowning victim,67.86,64.3,0.0,65.4,REVIEW_REQUIRED,1,17,84,67,0,0.0,Moderate evidence candidate requiring operator verification.
+18,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,42.85,80.9,0.0,64.0,REVIEW_REQUIRED,7,18,117,99,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+19,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,60.12,62.0,0.0,63.2,REVIEW_REQUIRED,3,19,95,76,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+20,000212_jpg.rf.177b8d203b522165d2e20c7ebc032f09.jpg,drowning victim,44.2,82.1,0.0,62.5,REVIEW_REQUIRED,1,20,114,94,1,0.6843,Moderate evidence candidate requiring operator verification.
+21,000074_jpg.rf.a3b1f80cc9cbb52615000900fc2034ca.jpg,airplane,77.7,75.0,0.0,61.8,REVIEW_REQUIRED,1,21,68,47,1,0.8544,Moderate evidence candidate requiring operator verification.
+22,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,37.54,80.6,0.0,61.1,REVIEW_REQUIRED,8,22,124,102,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+23,000533_jpg.rf.12df0ac8de17dacf5885adf13048c92d.jpg,wreck,91.61,88.1,0.0,60.7,REVIEW_REQUIRED,1,23,24,1,1,0.7561,Moderate evidence candidate requiring operator verification.
+24,000032_jpg.rf.830934e9aec278a1aac2c775b2bf7e63.jpg,airplane,88.32,61.2,0.0,60.6,REVIEW_REQUIRED,1,24,38,14,1,0.8129,Moderate evidence candidate requiring operator verification.
+25,000531_jpg.rf.8052e47ac12821c9f3e467139d287517.jpg,wreck,86.02,91.3,0.0,59.8,REVIEW_REQUIRED,1,25,50,25,1,0.9292,Moderate evidence candidate requiring operator verification.
+26,000616_jpg.rf.a7407774ef24098281439571bbe0c6d0.jpg,wreck,93.89,82.8,0.0,59.6,REVIEW_REQUIRED,1,26,17,-9,1,0.8911,Moderate evidence candidate requiring operator verification.
+27,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,37.27,77.2,0.0,59.2,REVIEW_REQUIRED,4,27,127,100,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+28,000407_jpg.rf.0855cb2f8b4a583606768aa3c5def899.jpg,wreck,93.26,80.4,0.0,58.6,REVIEW_REQUIRED,1,28,20,-8,1,0.8409,Moderate evidence candidate requiring operator verification.
+29,000010_jpg.rf.efb6cf8c3257d078e4fffc1451283b5b.jpg,airplane,83.53,61.0,0.0,58.5,REVIEW_REQUIRED,1,29,56,27,1,0.9246,Moderate evidence candidate requiring operator verification.
+30,000443_jpg.rf.ca7de3e5b8ca287f5537426b828ffd3e.jpg,wreck,90.94,82.2,0.0,58.4,REVIEW_REQUIRED,1,30,27,-3,1,0.9116,Moderate evidence candidate requiring operator verification.
+31,000572_jpg.rf.cc092e5758c17b579861fa329f2b24cf.jpg,wreck,89.82,82.8,0.0,58.3,REVIEW_REQUIRED,1,31,31,0,1,0.8594,Moderate evidence candidate requiring operator verification.
+32,000087_jpg.rf.c04c2f079ad52a1e4374352a6e4d348e.jpg,airplane,86.82,56.5,0.0,58.0,REVIEW_REQUIRED,1,32,46,14,1,0.7515,Moderate evidence candidate requiring operator verification.
+33,000298_jpg.rf.67caf68a5f65cf21e8d0708069ae7867.jpg,wreck,87.17,83.1,0.0,57.5,REVIEW_REQUIRED,1,33,42,9,1,0.9091,Moderate evidence candidate requiring operator verification.
+34,000675_jpg.rf.f3d6ccfc641ba93716c35a6a531b4781.jpg,wreck,96.72,73.6,0.0,57.5,REVIEW_REQUIRED,1,34,3,-31,1,0.869,Moderate evidence candidate requiring operator verification.
+35,000632_jpg.rf.46f211670a7990a484cf68f4f0ec4d43.jpg,wreck,93.45,76.7,0.0,57.4,REVIEW_REQUIRED,1,35,19,-16,1,0.942,Moderate evidence candidate requiring operator verification.
+36,000421_jpg.rf.0e5d334e324788ccf77c74a4739e9bd6.jpg,wreck,95.17,75.0,0.0,57.4,REVIEW_REQUIRED,1,36,10,-26,1,0.8887,Moderate evidence candidate requiring operator verification.
+37,000427_jpg.rf.f801587b1a384d5f12dd433282783c8c.jpg,wreck,93.16,76.4,0.0,57.2,REVIEW_REQUIRED,1,37,21,-16,1,0.8339,Moderate evidence candidate requiring operator verification.
+38,000489_jpg.rf.d14dd44b1a94f77c1d99d06577974e1e.jpg,wreck,96.56,72.1,0.0,56.9,REVIEW_REQUIRED,1,38,6,-32,1,0.9325,Moderate evidence candidate requiring operator verification.
+39,000101_jpg.rf.ecbf1099f121a10fc29d2aba186fea28.jpg,airplane,87.13,53.3,0.0,56.9,REVIEW_REQUIRED,1,39,43,4,1,0.7847,Moderate evidence candidate requiring operator verification.
+40,000549_jpg.rf.eb93e45dcae3eab4943fa7b27a93a08b.jpg,wreck,90.64,77.6,0.0,56.8,REVIEW_REQUIRED,1,40,28,-12,0,0.3567,Moderate evidence candidate requiring operator verification.
+41,000475_jpg.rf.9ec9a9949ee49b794aa2d30d52df96c6.jpg,wreck,86.92,80.6,0.0,56.5,REVIEW_REQUIRED,1,41,45,4,1,0.8857,Moderate evidence candidate requiring operator verification.
+42,000445_jpg.rf.ce01b83107e5b8711ecef47e55b97659.jpg,wreck,89.19,78.2,0.0,56.5,REVIEW_REQUIRED,1,42,35,-7,1,0.8554,Moderate evidence candidate requiring operator verification.
+43,000427_jpg.rf.f801587b1a384d5f12dd433282783c8c.jpg,wreck,96.85,70.4,0.0,56.4,REVIEW_REQUIRED,2,43,2,-41,1,0.8315,Moderate evidence candidate requiring operator verification.
+44,000255_jpg.rf.0bfac372ffbb65eb49cd9f6c7b1dab7e.jpg,wreck,82.93,83.4,0.0,56.1,REVIEW_REQUIRED,1,44,59,15,1,0.8608,Moderate evidence candidate requiring operator verification.
+45,000046_jpg.rf.4023dcae9c4e27e34f6be32dfa2ecd53.jpg,drowning victim,43.35,70.0,0.0,56.1,REVIEW_REQUIRED,1,45,116,71,0,0.0,Moderate evidence candidate requiring operator verification.
+46,000050_jpg.rf.26a57a4c930c01d10b34e2a40c4f1fe4.jpg,drowning victim,36.17,76.9,0.0,56.0,REVIEW_REQUIRED,1,46,130,84,0,0.0,Moderate evidence candidate requiring operator verification.
+47,000232_jpg.rf.3f2ec2c2fed10f06971f5b3d2ea33027.jpg,wreck,94.35,71.2,0.0,55.9,REVIEW_REQUIRED,1,47,15,-32,1,0.9205,Moderate evidence candidate requiring operator verification.
+48,000287_jpg.rf.2505fc51791884c415c32c652423e902.jpg,wreck,93.57,71.7,0.0,55.8,REVIEW_REQUIRED,1,48,18,-30,1,0.7904,Moderate evidence candidate requiring operator verification.
+49,000678_jpg.rf.a369300d71b66873315581454622784d.jpg,wreck,89.05,75.3,0.0,55.5,REVIEW_REQUIRED,1,49,36,-13,1,0.8027,Moderate evidence candidate requiring operator verification.
+50,000375_jpg.rf.d483765b982499ff385db069d82b6e78.jpg,wreck,83.45,78.8,0.0,54.8,REVIEW_REQUIRED,1,50,58,8,1,0.8728,Moderate evidence candidate requiring operator verification.
+51,000555_jpg.rf.039eb6257b787b3c06e74b9e93bcf74f.jpg,wreck,91.09,70.5,0.0,54.5,REVIEW_REQUIRED,1,51,25,-26,1,0.8836,Moderate evidence candidate requiring operator verification.
+52,000431_jpg.rf.a3aa0109c59453fdb5c7a167e3718756.jpg,wreck,94.76,66.8,0.0,54.5,REVIEW_REQUIRED,1,52,13,-39,1,0.8629,Moderate evidence candidate requiring operator verification.
+53,000504_jpg.rf.fdb71c2f998b17e8bcdce359fc40c3b9.jpg,wreck,88.41,72.7,0.0,54.4,REVIEW_REQUIRED,1,53,37,-16,1,0.6968,Moderate evidence candidate requiring operator verification.
+54,000111_jpg.rf.87a301974fe3491aec102012f1be7ab3.jpg,airplane,85.87,48.4,0.0,54.4,REVIEW_REQUIRED,1,54,51,-3,1,0.773,Moderate evidence candidate requiring operator verification.
+55,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,34.0,76.0,0.0,54.4,REVIEW_REQUIRED,2,55,133,78,1,0.6536,Moderate evidence candidate requiring operator verification.
+56,000453_jpg.rf.8f03fb9ade2b9caf7492eafe55c4baf8.jpg,drowning victim,56.07,53.6,0.0,54.3,REVIEW_REQUIRED,1,56,100,44,0,0.0,Moderate evidence candidate requiring operator verification.
+57,000248_jpg.rf.b26b833101cc7be79b357f0faae9d625.jpg,wreck,78.2,82.2,0.0,54.1,REVIEW_REQUIRED,1,57,66,9,1,0.5027,Moderate evidence candidate requiring operator verification.
+58,000127_jpg.rf.1e061ca5f3a258bb1733fcd90b8ab808.jpg,drowning victim,37.47,71.6,0.0,54.0,REVIEW_REQUIRED,1,58,125,67,0,0.0,Moderate evidence candidate requiring operator verification.
+59,000536_jpg.rf.45086e1d8fafb3a1629882d6edf08eff.jpg,wreck,94.59,65.2,0.0,53.9,REVIEW_REQUIRED,1,59,14,-45,1,0.8678,Moderate evidence candidate requiring operator verification.
+60,000234_jpg.rf.d03392437c3a2b9d917333e901605e71.jpg,wreck,95.78,64.0,0.0,53.9,REVIEW_REQUIRED,1,60,9,-51,1,0.9586,Moderate evidence candidate requiring operator verification.
+61,000562_jpg.rf.eb310ee848e995454c5c9d84b2c24ed4.jpg,wreck,87.06,72.4,0.0,53.8,REVIEW_REQUIRED,1,61,44,-17,1,0.6548,Moderate evidence candidate requiring operator verification.
+62,000008_jpg.rf.9fcda58b0c5acab328c191a8bd4ebd7d.jpg,airplane,70.2,62.5,0.0,53.7,REVIEW_REQUIRED,1,62,80,18,1,0.9542,Moderate evidence candidate requiring operator verification.
+63,000503_jpg.rf.6a9f7d8380ce2e07f5ca7f5c2604ecef.jpg,wreck,92.98,65.5,0.0,53.5,REVIEW_REQUIRED,2,63,22,-41,1,0.945,Moderate evidence candidate requiring operator verification.
+64,000368_jpg.rf.61db6625ce58a6b9b75dae20b63c941a.jpg,wreck,91.07,66.8,0.0,53.3,REVIEW_REQUIRED,1,64,26,-38,1,0.9066,Moderate evidence candidate requiring operator verification.
+65,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,27.75,73.8,0.0,52.6,REVIEW_REQUIRED,5,65,152,87,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+66,000324_jpg.rf.e058ed94b5be020e17f40532252ac5bc.jpg,wreck,74.75,80.9,0.0,52.5,REVIEW_REQUIRED,1,66,72,6,1,0.8321,Moderate evidence candidate requiring operator verification.
+67,000497_jpg.rf.c3202ba2b447990c47e46a96310ab07f.jpg,wreck,79.9,75.6,0.0,52.5,REVIEW_REQUIRED,1,67,61,-6,0,0.302,Moderate evidence candidate requiring operator verification.
+68,000427_jpg.rf.f801587b1a384d5f12dd433282783c8c.jpg,wreck,94.77,60.4,0.0,52.4,REVIEW_REQUIRED,3,68,12,-56,1,0.8614,Moderate evidence candidate requiring operator verification.
+69,000212_jpg.rf.177b8d203b522165d2e20c7ebc032f09.jpg,drowning victim,42.06,63.2,0.0,52.1,REVIEW_REQUIRED,2,69,118,49,1,0.5708,Moderate evidence candidate requiring operator verification.
+70,000356_jpg.rf.7f74a09e1da27d99fa9247e84d8b9470.jpg,wreck,89.36,64.8,0.0,52.0,REVIEW_REQUIRED,1,70,34,-36,1,0.9261,Moderate evidence candidate requiring operator verification.
+71,000576_jpg.rf.4a6df5853b8c3c5d2ef6a3e80245be29.jpg,wreck,89.4,64.8,0.0,52.0,REVIEW_REQUIRED,1,71,33,-38,1,0.8593,Moderate evidence candidate requiring operator verification.
+72,000419_jpg.rf.3e0ff4205ff0798d0ab29bbcaadc7373.jpg,wreck,74.43,79.4,0.0,51.9,REVIEW_REQUIRED,1,72,73,1,1,0.8158,Moderate evidence candidate requiring operator verification.
+73,000233_jpg.rf.13f74a5f9920e8de77dcf6ce0a55766c.jpg,wreck,86.45,67.4,0.0,51.9,REVIEW_REQUIRED,1,73,47,-26,1,0.8604,Moderate evidence candidate requiring operator verification.
+74,000228_jpg.rf.8c49d94c4ea3f623d11a225179108cb6.jpg,wreck,86.38,67.0,0.0,51.8,REVIEW_REQUIRED,1,74,48,-26,0,0.3489,Moderate evidence candidate requiring operator verification.
+75,000368_jpg.rf.61db6625ce58a6b9b75dae20b63c941a.jpg,wreck,77.24,76.0,0.0,51.7,REVIEW_REQUIRED,2,75,71,-4,1,0.8166,Moderate evidence candidate requiring operator verification.
+76,000290_jpg.rf.ebfba27b85e570b92f965c7508ce6a80.jpg,wreck,86.08,67.0,0.0,51.7,REVIEW_REQUIRED,1,76,49,-27,1,0.8241,Moderate evidence candidate requiring operator verification.
+77,000453_jpg.rf.8f03fb9ade2b9caf7492eafe55c4baf8.jpg,wreck,64.41,88.9,0.0,51.7,REVIEW_REQUIRED,2,77,87,10,1,0.8418,Moderate evidence candidate requiring operator verification.
+78,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,25.03,74.9,0.0,51.7,REVIEW_REQUIRED,6,78,158,80,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+79,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,51.13,53.3,0.0,51.7,REVIEW_REQUIRED,3,79,111,32,0,0.1669,Moderate evidence candidate requiring operator verification.
+80,000132_jpg.rf.f2ba423ba22a7c3e4d7700d635aab568.jpg,drowning victim,37.37,66.9,0.0,51.6,REVIEW_REQUIRED,2,80,126,46,0,0.0,Moderate evidence candidate requiring operator verification.
+81,000455_jpg.rf.81a219a06f62a65eb7eecbde1ada7f41.jpg,drowning victim,34.21,69.5,0.0,51.3,REVIEW_REQUIRED,1,81,132,51,0,0.0,Moderate evidence candidate requiring operator verification.
+82,000605_jpg.rf.e608301ba4b6029dfbad4677394a6d32.jpg,wreck,77.33,74.4,0.0,51.2,REVIEW_REQUIRED,1,82,70,-12,0,0.0,Moderate evidence candidate requiring operator verification.
+83,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,28.59,74.8,0.0,51.2,REVIEW_REQUIRED,4,83,149,66,1,0.8383,Moderate evidence candidate requiring operator verification.
+84,000528_jpg.rf.cbf8785dae41ff38dde0a09de9e4fbe7.jpg,wreck,79.14,72.1,0.0,51.0,REVIEW_REQUIRED,1,84,63,-21,1,0.9312,Moderate evidence candidate requiring operator verification.
+85,000669_jpg.rf.c75fb78a158910d98138fcac8f59ed07.jpg,mine,28.9,69.6,0.0,51.0,REVIEW_REQUIRED,1,85,146,61,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+86,000402_jpg.rf.9c1ce694648eed443ade9a7110e0ffe7.jpg,wreck,84.02,67.0,0.0,51.0,REVIEW_REQUIRED,1,86,55,-31,1,0.9095,Moderate evidence candidate requiring operator verification.
+87,000225_jpg.rf.3b0e73d0e39a3b3db62b7abac27aa14f.jpg,wreck,97.03,53.9,0.0,50.9,REVIEW_REQUIRED,1,87,1,-86,1,0.915,Moderate evidence candidate requiring operator verification.
+88,000379_jpg.rf.04af9b44cc9affbb20732329e1fab455.jpg,wreck,96.42,54.0,0.0,50.8,REVIEW_REQUIRED,1,88,7,-81,1,0.9248,Moderate evidence candidate requiring operator verification.
+89,000341_jpg.rf.3937ff52d91a3ed597ccb77ccb92a967.jpg,wreck,92.68,57.6,0.0,50.7,REVIEW_REQUIRED,1,89,23,-66,1,0.7895,Moderate evidence candidate requiring operator verification.
+90,000160_jpg.rf.316a812180e05f5a6682948a1c1a8422.jpg,mine,29.09,68.7,0.0,50.6,REVIEW_REQUIRED,1,90,143,53,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+91,000513_jpg.rf.f6a0a4be62a5b5bd3431f72b70ce51cd.jpg,wreck,77.72,72.0,0.0,50.5,REVIEW_REQUIRED,1,91,67,-24,1,0.869,Moderate evidence candidate requiring operator verification.
+92,000253_jpg.rf.b01c6bf31461983988c07843e05a7d5c.jpg,mine,28.64,88.3,0.0,50.5,REVIEW_REQUIRED,2,92,148,56,0,0.0,"High neural/acoustic evidence discrepancy requires analyst review. Neural/evidence delta is 59.7% (conf: 28.6%, ev: 88.3%)."
+93,000421_jpg.rf.0e5d334e324788ccf77c74a4739e9bd6.jpg,wreck,74.24,74.4,0.0,50.2,REVIEW_REQUIRED,2,93,74,-19,0,0.0,Moderate evidence candidate requiring operator verification.
+94,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,drowning victim,25.9,75.0,0.0,49.9,REVIEW_REQUIRED,5,94,156,62,0,0.0,Moderate evidence candidate requiring operator verification.
+95,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,mine,28.98,86.2,0.0,49.6,REVIEW_REQUIRED,6,95,144,49,0,0.0,"High neural/acoustic evidence discrepancy requires analyst review. Neural/evidence delta is 57.2% (conf: 29.0%, ev: 86.2%)."
+96,000312_jpg.rf.34f50b21632e1cf0489948f763b234e8.jpg,wreck,85.55,61.1,0.0,49.5,REVIEW_REQUIRED,1,96,53,-43,1,0.6581,Moderate evidence candidate requiring operator verification.
+97,000015_jpg.rf.47c73e8904dd302e7cefbacfb9d2f52d.jpg,airplane,57.85,64.2,0.0,49.4,REVIEW_REQUIRED,1,97,98,1,1,0.5797,Moderate evidence candidate requiring operator verification.
+98,000294_jpg.rf.70c8636e48aae4fb9aca63562a6d449e.jpg,airplane,52.83,68.6,0.0,49.2,REVIEW_REQUIRED,1,98,108,10,0,0.0,Moderate evidence candidate requiring operator verification.
+99,000071_jpg.rf.8ea06a81b8debfcdd1d722fd9f0fcab3.jpg,airplane,66.94,54.2,0.0,49.1,REVIEW_REQUIRED,1,99,85,-14,1,0.8709,Moderate evidence candidate requiring operator verification.
+100,000132_jpg.rf.f2ba423ba22a7c3e4d7700d635aab568.jpg,drowning victim,36.23,62.3,0.0,48.8,REVIEW_REQUIRED,3,100,129,29,0,0.0,Moderate evidence candidate requiring operator verification.
+101,000411_jpg.rf.408d749c4d88ad75995ab23b8b91e0c2.jpg,wreck,83.51,60.8,0.0,48.7,REVIEW_REQUIRED,1,101,57,-44,1,0.8797,Moderate evidence candidate requiring operator verification.
+102,000667_jpg.rf.f7fd9871d310cbecfd4f91c35d73f32d.jpg,wreck,84.52,59.4,0.0,48.6,REVIEW_REQUIRED,1,102,54,-48,1,0.6692,Moderate evidence candidate requiring operator verification.
+103,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,40.05,53.9,0.0,48.6,REVIEW_REQUIRED,7,103,121,18,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+104,000197_jpg.rf.cc5f9c6a274bfe1ee585222f53eec7b4.jpg,wreck,55.79,87.5,0.0,48.4,REVIEW_REQUIRED,1,104,101,-3,0,0.0,Moderate evidence candidate requiring operator verification.
+105,000318_jpg.rf.db1460b1725b6fba7dd03d0efd2d04d0.jpg,wreck,89.73,53.5,0.0,48.3,REVIEW_REQUIRED,1,105,32,-73,1,0.7595,Moderate evidence candidate requiring operator verification.
+106,000431_jpg.rf.a3aa0109c59453fdb5c7a167e3718756.jpg,wreck,74.0,68.9,0.0,48.2,REVIEW_REQUIRED,2,106,76,-30,1,0.8197,Moderate evidence candidate requiring operator verification.
+107,000589_jpg.rf.e2682c2bbf871de5bd161aa7d7ac6bc4.jpg,wreck,90.35,52.6,0.0,48.2,REVIEW_REQUIRED,1,107,30,-77,1,0.8913,Moderate evidence candidate requiring operator verification.
+108,000462_jpg.rf.b512be93c42561afeb75076ee9f25d53.jpg,wreck,90.48,51.6,0.0,48.0,REVIEW_REQUIRED,1,108,29,-79,1,0.8345,Moderate evidence candidate requiring operator verification.
+109,000338_jpg.rf.718cca3d0c1f077300b670a757a72334.jpg,wreck,87.39,53.9,0.0,47.7,REVIEW_REQUIRED,1,109,41,-68,1,0.9309,Moderate evidence candidate requiring operator verification.
+110,000552_jpg.rf.5054bc9684a7beeb2984b9da3df21fa9.jpg,wreck,87.96,52.2,0.0,47.3,REVIEW_REQUIRED,1,110,39,-71,1,0.8221,Moderate evidence candidate requiring operator verification.
+111,000521_jpg.rf.8666495929013e66e65000ac9e94155c.jpg,wreck,85.77,53.6,0.0,47.0,REVIEW_REQUIRED,1,111,52,-59,1,0.6458,Moderate evidence candidate requiring operator verification.
+112,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,25.12,85.0,0.0,47.0,REVIEW_REQUIRED,9,112,157,45,0,0.0,"High neural/acoustic evidence discrepancy requires analyst review. Neural/evidence delta is 59.9% (conf: 25.1%, ev: 85.0%)."
+113,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,27.33,63.4,0.0,47.0,REVIEW_REQUIRED,8,113,153,40,0,0.0,Subsurface mine hazard candidate requiring manual analyst verification.
+114,000210_jpg.rf.5f7d19f92fda44a24cad3a0e2ccb4a60.jpg,wreck,79.03,58.0,0.0,46.2,REVIEW_REQUIRED,1,114,64,-50,0,0.0,Moderate evidence candidate requiring operator verification.
+115,000574_jpg.rf.23967b4a2c4a425494900816952cc5a1.jpg,wreck,79.58,57.2,0.0,46.2,REVIEW_REQUIRED,1,115,62,-53,1,0.8672,Moderate evidence candidate requiring operator verification.
+116,000323_jpg.rf.6ce01a4b43237d781b37b141780a0d0b.jpg,wreck,62.86,73.2,0.0,45.9,REVIEW_REQUIRED,1,116,91,-25,1,0.7085,Moderate evidence candidate requiring operator verification.
+117,000547_jpg.rf.095d7202ef36c26d342634224fef00de.jpg,wreck,70.98,64.3,0.0,45.7,REVIEW_REQUIRED,1,117,79,-38,1,0.7795,Moderate evidence candidate requiring operator verification.
+118,000573_jpg.rf.7fd62a821b3be20a66b19ce7c6f78182.jpg,wreck,59.05,75.6,0.0,45.4,REVIEW_REQUIRED,1,118,97,-21,1,0.6468,Moderate evidence candidate requiring operator verification.
+119,000479_jpg.rf.320c3faa2c6ecc40cee08d9566c51db1.jpg,wreck,80.3,53.9,0.0,45.3,REVIEW_REQUIRED,1,119,60,-59,1,0.7182,Moderate evidence candidate requiring operator verification.
+120,000554_jpg.rf.e4efba9e9f2415ae84387d0ebc010ee5.jpg,wreck,68.82,65.0,0.0,45.2,REVIEW_REQUIRED,1,120,81,-39,1,0.9053,Moderate evidence candidate requiring operator verification.
+121,000160_jpg.rf.316a812180e05f5a6682948a1c1a8422.jpg,mine,27.08,78.9,0.0,44.8,REVIEW_REQUIRED,2,121,154,33,0,0.0,"High neural/acoustic evidence discrepancy requires analyst review. Neural/evidence delta is 51.8% (conf: 27.1%, ev: 78.9%)."
+122,000173_jpg.rf.215244a206b17f15d089f9ee432e9bc4.jpg,airplane,51.99,57.9,0.0,44.5,DEFERRED_INSPECTION,1,122,109,-13,0,0.0,Low acoustic contrast return; deferred to secondary review.
+123,000665_jpg.rf.470b9b66e15cdb803197e3a7f4691768.jpg,wreck,62.44,68.9,0.0,44.3,DEFERRED_INSPECTION,1,123,92,-31,1,0.8842,Lower-priority static wreck candidate.
+124,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,mine,26.39,58.9,0.0,44.1,DEFERRED_INSPECTION,10,124,155,31,1,0.6888,Low acoustic contrast return; deferred to secondary review.
+125,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,31.27,53.8,0.0,44.0,DEFERRED_INSPECTION,9,125,136,11,0,0.0,Low acoustic contrast return; deferred to secondary review.
+126,000316_jpg.rf.f711a907c27a15050caec26a2431fb43.jpg,wreck,77.41,52.6,0.0,43.9,DEFERRED_INSPECTION,1,126,69,-57,1,0.6854,Lower-priority static wreck candidate.
+127,000678_jpg.rf.a369300d71b66873315581454622784d.jpg,wreck,55.13,74.3,0.0,43.7,DEFERRED_INSPECTION,2,127,104,-23,0,0.0,Lower-priority static wreck candidate.
+128,000015_jpg.rf.47c73e8904dd302e7cefbacfb9d2f52d.jpg,wreck,64.31,64.4,0.0,43.4,DEFERRED_INSPECTION,2,128,89,-39,0,0.0,Lower-priority static wreck candidate.
+129,000227_jpg.rf.41d22509c106693d9d28e1a98e9792cd.jpg,wreck,65.87,62.8,0.0,43.4,DEFERRED_INSPECTION,1,129,86,-43,1,0.9609,Lower-priority static wreck candidate.
+130,000497_jpg.rf.c3202ba2b447990c47e46a96310ab07f.jpg,wreck,73.39,55.0,0.0,43.3,DEFERRED_INSPECTION,2,130,77,-53,0,0.3986,Lower-priority static wreck candidate.
+131,000455_jpg.rf.81a219a06f62a65eb7eecbde1ada7f41.jpg,wreck,72.49,55.4,0.0,43.2,DEFERRED_INSPECTION,2,131,78,-53,1,0.8988,Lower-priority static wreck candidate.
+132,000161_jpg.rf.f706f74d6d2aa80f8efb67822b6c8a45.jpg,mine,28.78,54.0,0.0,42.8,DEFERRED_INSPECTION,10,132,147,15,0,0.0,Low acoustic contrast return; deferred to secondary review.
+133,000123_jpg.rf.2ed0ee5490c8a919344ab2ab0ce3e21f.jpg,wreck,40.58,84.8,0.0,42.3,DEFERRED_INSPECTION,7,133,120,-13,0,0.0,Lower-priority static wreck candidate.
+134,000024_jpg.rf.1b115b87803c433f853eeecee0df58b4.jpg,airplane,38.68,65.0,0.0,42.0,DEFERRED_INSPECTION,1,134,123,-11,1,0.8586,Low acoustic contrast return; deferred to secondary review.
+135,000127_jpg.rf.1e061ca5f3a258bb1733fcd90b8ab808.jpg,drowning victim,27.94,56.8,0.0,41.9,DEFERRED_INSPECTION,2,135,151,16,0,0.0,Low acoustic contrast return; deferred to secondary review.
+136,000430_jpg.rf.48251e967569c2383b1f3c6f485fd17e.jpg,wreck,53.67,68.9,0.0,41.4,DEFERRED_INSPECTION,1,136,107,-29,1,0.8416,Lower-priority static wreck candidate.
+137,000600_jpg.rf.e8e7520e63acab1ccabc8ec818f77b24.jpg,wreck,57.29,65.3,0.0,41.4,DEFERRED_INSPECTION,1,137,99,-38,1,0.8219,Lower-priority static wreck candidate.
+138,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,29.76,53.3,0.0,41.1,DEFERRED_INSPECTION,5,138,141,3,0,0.3508,Low acoustic contrast return; deferred to secondary review.
+139,000189_jpg.rf.f459bd5eba94804d42ecea439cf8d499.jpg,drowning victim,28.56,53.8,0.0,40.8,DEFERRED_INSPECTION,6,139,150,11,1,0.6914,Low acoustic contrast return; deferred to secondary review.
+140,000366_jpg.rf.0a19870ba7f8cf891b2deca3d2390cc9.jpg,wreck,61.64,58.6,0.0,40.6,DEFERRED_INSPECTION,1,140,93,-47,1,0.7489,Lower-priority static wreck candidate.
+141,000223_jpg.rf.95e0ec548d18197681a02d70459372c1.jpg,wreck,63.62,56.3,0.0,40.5,DEFERRED_INSPECTION,1,141,90,-51,0,0.0,Lower-priority static wreck candidate.
+142,000264_jpg.rf.942a25d02a8be2cbc0b84911e54f095d.jpg,wreck,55.15,64.3,0.0,40.3,DEFERRED_INSPECTION,1,142,103,-39,1,0.6199,Lower-priority static wreck candidate.
+143,000046_jpg.rf.4023dcae9c4e27e34f6be32dfa2ecd53.jpg,wreck,49.29,69.6,0.0,40.1,DEFERRED_INSPECTION,2,143,113,-30,0,0.0,Lower-priority static wreck candidate.
+144,000415_jpg.rf.7305a63d3c24ac1a496ae36227ed9e00.jpg,airplane,31.84,63.6,0.0,38.7,DEFERRED_INSPECTION,1,144,135,-9,0,0.0,Low acoustic contrast return; deferred to secondary review.
+145,000210_jpg.rf.5f7d19f92fda44a24cad3a0e2ccb4a60.jpg,wreck,35.16,74.6,0.0,37.0,DEFERRED_INSPECTION,2,145,131,-14,0,0.0,Lower-priority static wreck candidate.
+146,000223_jpg.rf.95e0ec548d18197681a02d70459372c1.jpg,wreck,53.7,53.1,0.0,36.0,DEFERRED_INSPECTION,2,146,106,-40,0,0.0,Lower-priority static wreck candidate.
+147,000224_jpg.rf.6e758ef803334b456717a5c7179cb495.jpg,wreck,55.35,50.8,0.0,35.8,DEFERRED_INSPECTION,1,147,102,-45,0,0.0,Lower-priority static wreck candidate.
+148,000605_jpg.rf.e608301ba4b6029dfbad4677394a6d32.jpg,wreck,30.99,73.4,0.0,35.2,DEFERRED_INSPECTION,2,148,137,-11,1,0.8344,Lower-priority static wreck candidate.
+149,000228_jpg.rf.8c49d94c4ea3f623d11a225179108cb6.jpg,wreck,39.01,65.1,0.0,35.1,DEFERRED_INSPECTION,2,149,122,-27,0,0.3737,Lower-priority static wreck candidate.
+150,000041_jpg.rf.cdc982398ad34aea28aa660cd2ac6ed0.jpg,wreck,49.84,51.7,0.0,34.3,DEFERRED_INSPECTION,1,150,112,-38,0,0.0,Lower-priority static wreck candidate.
+151,000145_jpg.rf.d5863ccdecf27e69ec3453253d315b6f.jpg,wreck,37.2,61.5,0.0,33.3,DEFERRED_INSPECTION,1,151,128,-23,0,0.0,Lower-priority static wreck candidate.
+152,000041_jpg.rf.cdc982398ad34aea28aa660cd2ac6ed0.jpg,airplane,30.17,51.5,0.0,33.1,DEFERRED_INSPECTION,2,152,140,-12,1,0.8274,Low acoustic contrast return; deferred to secondary review.
+153,000217_jpg.rf.e225abe6b0909a6ec4ec1a77ab574824.jpg,wreck,30.19,64.6,0.0,32.0,DEFERRED_INSPECTION,1,153,138,-15,0,0.0,Lower-priority static wreck candidate.
+154,000191_jpg.rf.f23ce80a51c5df21c6060cb392ef5689.jpg,wreck,28.96,65.7,0.0,31.9,DEFERRED_INSPECTION,1,154,145,-9,0,0.0,Lower-priority static wreck candidate.
+155,000274_jpg.rf.b0f93bf584121dc6066498a461220741.jpg,wreck,32.29,59.9,0.0,31.1,DEFERRED_INSPECTION,1,155,134,-21,1,0.5701,Lower-priority static wreck candidate.
+156,000195_jpg.rf.b280fec115dfc1da02be96163582b72f.jpg,wreck,29.23,62.4,0.0,30.9,DEFERRED_INSPECTION,1,156,142,-14,0,0.0,Lower-priority static wreck candidate.
+157,000224_jpg.rf.6e758ef803334b456717a5c7179cb495.jpg,wreck,41.13,47.9,0.0,30.0,DEFERRED_INSPECTION,2,157,119,-38,0,0.0,Lower-priority static wreck candidate.
+158,000124_jpg.rf.13a44339a12e0b1c13c9f03ff78ef9bb.jpg,wreck,30.18,52.2,0.0,27.8,DEFERRED_INSPECTION,11,158,139,-19,0,0.0,Lower-priority static wreck candidate.

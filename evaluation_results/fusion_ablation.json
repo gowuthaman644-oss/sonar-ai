@@ -1,0 +1,42 @@
+{
+  "Config_1_YOLO_Only": {
+    "mean_critical_tp_rank": 75.88,
+    "median_critical_tp_rank": 79.0,
+    "top_20_critical_tps_captured": 5,
+    "top_20_critical_recall": 6.67,
+    "mean_all_tp_rank": 56.3,
+    "mean_all_fp_rank": 116.39
+  },
+  "Config_2_Equal_Blend": {
+    "mean_critical_tp_rank": 63.5,
+    "median_critical_tp_rank": 45.5,
+    "top_20_critical_tps_captured": 6,
+    "top_20_critical_recall": 8.0,
+    "mean_all_tp_rank": 57.97,
+    "mean_all_fp_rank": 113.74
+  },
+  "Config_3_Blend_Hazard": {
+    "mean_critical_tp_rank": 34.88,
+    "median_critical_tp_rank": 9.0,
+    "top_20_critical_tps_captured": 11,
+    "top_20_critical_recall": 14.67,
+    "mean_all_tp_rank": 72.71,
+    "mean_all_fp_rank": 90.3
+  },
+  "Config_4_Blend_Hazard_Track": {
+    "mean_critical_tp_rank": 34.88,
+    "median_critical_tp_rank": 9.0,
+    "top_20_critical_tps_captured": 11,
+    "top_20_critical_recall": 14.67,
+    "mean_all_tp_rank": 72.71,
+    "mean_all_fp_rank": 90.3
+  },
+  "Config_5_Full_Fusion": {
+    "mean_critical_tp_rank": 34.12,
+    "median_critical_tp_rank": 9.0,
+    "top_20_critical_tps_captured": 11,
+    "top_20_critical_recall": 14.67,
+    "mean_all_tp_rank": 70.72,
+    "mean_all_fp_rank": 93.46
+  }
+}

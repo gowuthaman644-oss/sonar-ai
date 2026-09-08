@@ -14,9 +14,12 @@ import {
   Server,
   Zap,
   Lock,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  Layers,
+  Activity
 } from 'lucide-react';
-import { GlassPanel, GlowButton, SectionHeader } from '../components/ui';
+import { GlassPanel, GlowButton } from '../components/ui';
 
 export default function NewScan() {
   const [file, setFile] = useState(null);
@@ -58,7 +61,7 @@ export default function NewScan() {
   const handleFile = (selectedFile) => {
     setError(null);
     if (!selectedFile.type.startsWith('image/')) {
-      setError("INVALID FORMAT. SONAR INFERENCE REQUIRES IMAGE PAYLOADS.");
+      setError("INVALID FORMAT. SONAR INFERENCE REQUIRES IMAGE PAYLOADS (PNG, JPG, JPEG).");
       return;
     }
     setFile(selectedFile);
@@ -81,16 +84,18 @@ export default function NewScan() {
     setProcessState(1);
 
     try {
-      setTimeout(() => setProcessState(2), 800);
-      setTimeout(() => setProcessState(3), 2000);
+      setTimeout(() => setProcessState(2), 400);
+      setTimeout(() => setProcessState(3), 900);
+      setTimeout(() => setProcessState(4), 1400);
+      setTimeout(() => setProcessState(5), 1900);
       
       const result = await analyzeSonar(file);
       
-      setProcessState(4);
+      setProcessState(6);
       
       setTimeout(() => {
         navigate(`/results/${result.scan_id}`, { state: { result, imagePreview: preview } });
-      }, 800);
+      }, 500);
       
     } catch (err) {
       console.error(err);
@@ -104,13 +109,13 @@ export default function NewScan() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      transition: { staggerChildren: 0.05 }
     }
   };
 
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } }
   };
 
   return (
@@ -122,37 +127,40 @@ export default function NewScan() {
     >
       
       {/* Header */}
-      <motion.div variants={item} className="flex flex-col md:flex-row md:items-end justify-between border-b border-[rgba(32,220,197,0.18)] pb-6 mb-2">
-        <div>
-          <div className="flex items-center gap-4 mb-2">
-            <h1 className="text-3xl font-bold tracking-[0.25em] uppercase text-[#F2F7F5] shadow-black drop-shadow-md">SCAN ANALYSIS</h1>
+      <motion.div variants={item} className="flex flex-col md:flex-row md:items-center justify-between border-b border-[rgba(32,220,197,0.18)] pb-4">
+        <div className="flex items-center gap-3.5 mb-2 md:mb-0">
+          <div className="h-11 w-11 bg-[rgba(4,25,27,0.85)] border border-[rgba(32,220,197,0.30)] flex items-center justify-center rounded shadow-[0_0_15px_rgba(32,220,197,0.12)]">
+            <Crosshair className="w-5 h-5 text-[#20DCC5]" />
           </div>
-          <p className="text-[#20DCC5] font-mono text-xs tracking-[0.3em] uppercase">
-            TARGET ACQUISITION & INFERENCE
-          </p>
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase text-[#F2F7F5] font-mono">SONAR SCAN INTAKE</h1>
+            <p className="text-[#20DCC5] font-mono text-[9px] tracking-widest uppercase mt-0.5">
+              TARGET ACQUISITION & MULTI-LAYER INFERENCE
+            </p>
+          </div>
         </div>
         
         {/* Decorative Status Bar */}
-        <div className="hidden md:flex gap-6 text-[9px] font-mono tracking-widest text-[#607874] uppercase">
-          <div className="flex items-center gap-2"><Server className="w-3 h-3 text-[#20DCC5]" /> GPU CLUSTER READY</div>
-          <div className="flex items-center gap-2"><Lock className="w-3 h-3 text-[#20DCC5]" /> SECURE UPLINK</div>
+        <div className="flex gap-4 text-[8.5px] font-mono tracking-widest text-[#607874] uppercase">
+          <div className="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-[rgba(32,220,197,0.15)]"><Server className="w-3 h-3 text-[#20DCC5]" /> <span className="text-[#A8BDB9]">YOLO11n READY</span></div>
+          <div className="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-[rgba(32,220,197,0.15)]"><Lock className="w-3 h-3 text-[#20DCC5]" /> <span className="text-[#A8BDB9]">IMMUTABLE AUDIT</span></div>
         </div>
       </motion.div>
 
       <AnimatePresence>
         {error && (
           <motion.div 
-            initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-            animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
-            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-red-500/10 border border-red-500/50 rounded flex items-center justify-between p-4 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-              <div className="flex items-center text-red-500 font-mono text-xs tracking-widest uppercase">
-                <AlertTriangle className="w-4 h-4 mr-3" />
-                {error}
+            <div className="bg-red-500/10 border border-red-500/50 rounded flex items-center justify-between p-3.5 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
+              <div className="flex items-center text-red-400 font-mono text-xs tracking-wider uppercase">
+                <AlertTriangle className="w-4 h-4 mr-2.5 flex-shrink-0" />
+                <span>{error}</span>
               </div>
-              <button onClick={() => setError(null)} className="text-red-500 hover:text-[#F2F7F5] transition-colors">
+              <button onClick={() => setError(null)} className="text-red-400 hover:text-[#F2F7F5] transition-colors p-1">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -163,17 +171,18 @@ export default function NewScan() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
         
         {/* LEFT COLUMN: Upload & Preview */}
-        <motion.div variants={item} className="lg:col-span-8 flex flex-col gap-6 h-full">
+        <motion.div variants={item} className="lg:col-span-8 flex flex-col gap-6 h-full min-h-0">
           <GlassPanel className="p-0 flex-1 relative flex flex-col overflow-hidden border border-[rgba(32,220,197,0.18)]" borderTop>
             
             {/* Header Area */}
-            <div className="p-4 border-b border-[rgba(32,220,197,0.18)] bg-black/40 flex justify-between items-center z-20">
-              <h3 className="text-[10px] font-mono tracking-widest text-[#F2F7F5] uppercase flex items-center gap-2">
-                <Crosshair className="w-3 h-3 text-[#20DCC5]" /> PAYLOAD ACQUISITION
+            <div className="p-3.5 border-b border-[rgba(32,220,197,0.18)] bg-black/40 flex justify-between items-center z-20">
+              <h3 className="text-[10px] font-mono font-bold tracking-widest text-[#F2F7F5] uppercase flex items-center gap-2">
+                <Crosshair className="w-3.5 h-3.5 text-[#20DCC5]" /> ACOUSTIC PAYLOAD ACQUISITION
               </h3>
+              <span className="text-[8.5px] font-mono text-[#607874] uppercase">640×640 NATIVE PIPELINE</span>
             </div>
 
-            <div className="flex-1 relative bg-[#02090B] flex flex-col p-6 overflow-hidden">
+            <div className="flex-1 relative bg-[#02090B]/80 flex flex-col p-5 overflow-hidden">
               <AnimatePresence mode="wait">
                 {!processing ? (
                   <motion.div 
@@ -186,9 +195,9 @@ export default function NewScan() {
                     {!file ? (
                       <div 
                         className={`
-                          flex-1 border-2 border-dashed rounded-xl transition-all duration-300
-                          flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer
-                          ${dragActive ? 'border-[#20DCC5] bg-[#20DCC5]/10 shadow-[0_0_30px_rgba(40,224,196,0.15)]' : 'border-[rgba(32,220,197,0.18)] hover:border-[#20DCC5]/50 hover:bg-white/5'}
+                          flex-1 border-2 border-dashed rounded-lg transition-all duration-200
+                          flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer p-8 min-h-[320px]
+                          ${dragActive ? 'border-[#20DCC5] bg-[#20DCC5]/10 shadow-[0_0_30px_rgba(32,220,197,0.15)]' : 'border-[rgba(32,220,197,0.20)] hover:border-[#20DCC5]/60 hover:bg-[rgba(32,220,197,0.03)]'}
                         `}
                         onDragEnter={handleDrag}
                         onDragLeave={handleDrag}
@@ -196,12 +205,27 @@ export default function NewScan() {
                         onDrop={handleDrop}
                         onClick={() => fileInputRef.current?.click()}
                       >
-                        <div className="w-24 h-24 rounded-full bg-[#0F6F70]/30 flex items-center justify-center mb-8 text-[#20DCC5] group-hover:scale-110 group-hover:bg-[#20DCC5]/10 transition-all duration-500 border border-transparent group-hover:border-[#20DCC5]/30">
-                          <UploadCloud className="w-10 h-10" />
+                        {/* Background Grid */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(32,220,197,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(32,220,197,0.03)_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none" />
+
+                        {/* Corner Accents */}
+                        <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#20DCC5]/40" />
+                        <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#20DCC5]/40" />
+                        <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#20DCC5]/40" />
+                        <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#20DCC5]/40" />
+
+                        <div className="w-16 h-16 rounded bg-[rgba(32,220,197,0.08)] border border-[rgba(32,220,197,0.30)] flex items-center justify-center mb-5 text-[#20DCC5] group-hover:scale-105 group-hover:bg-[#20DCC5]/15 transition-all duration-200 shadow-[0_0_20px_rgba(32,220,197,0.10)]">
+                          <UploadCloud className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold text-[#F2F7F5] mb-2 tracking-[0.2em] uppercase">DRAG & DROP SONAR PAYLOAD</h3>
-                        <p className="text-[#607874] font-mono text-[10px] tracking-[0.2em] uppercase mb-8">OR CLICK TO BROWSE SECURE DIRECTORY</p>
+                        <h3 className="text-base font-bold text-[#F2F7F5] mb-1.5 tracking-[0.18em] uppercase font-mono">DRAG & DROP SONAR PAYLOAD</h3>
+                        <p className="text-[#607874] font-mono text-[9px] tracking-[0.2em] uppercase mb-4">OR CLICK TO BROWSE LOCAL DIRECTORY</p>
                         
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-black/50 border border-[rgba(32,220,197,0.18)] text-[8.5px] font-mono text-[#A8BDB9] uppercase tracking-wider">
+                          <span>PNG / JPEG / JPG</span>
+                          <span className="text-[#607874]">•</span>
+                          <span>SIDE-SCAN SONAR</span>
+                        </div>
+
                         <input 
                           ref={fileInputRef}
                           type="file" 
@@ -211,40 +235,36 @@ export default function NewScan() {
                         />
                       </div>
                     ) : (
-                      <div className="flex flex-col flex-1 h-full">
-                        <div className="flex justify-between items-center mb-4 p-4 bg-[rgba(4,25,27,0.68)] backdrop-blur-[6px] border border-[rgba(32,220,197,0.18)] rounded">
-                          <div className="flex items-center gap-4">
-                            <div className="p-3 rounded bg-[#20DCC5]/10 border border-[#20DCC5]/30 text-[#20DCC5]">
-                              <FileImage className="w-6 h-6" />
+                      <div className="flex flex-col flex-1 h-full min-h-[320px]">
+                        <div className="flex justify-between items-center mb-3 p-3 bg-black/40 border border-[rgba(32,220,197,0.18)] rounded">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="p-2 rounded bg-[#20DCC5]/10 border border-[#20DCC5]/30 text-[#20DCC5] flex-shrink-0">
+                              <FileImage className="w-5 h-5" />
                             </div>
-                            <div>
-                              <h3 className="text-[#F2F7F5] font-mono tracking-widest text-xs uppercase">{file.name}</h3>
-                              <p className="text-[#607874] font-mono text-[9px] tracking-widest mt-1">
-                                {(file.size / (1024 * 1024)).toFixed(2)} MB — READY FOR TRANSFER
+                            <div className="min-w-0">
+                              <h3 className="text-[#F2F7F5] font-mono tracking-wider text-xs uppercase truncate font-bold">{file.name}</h3>
+                              <p className="text-[#607874] font-mono text-[8.5px] tracking-wider mt-0.5">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB • READY FOR INFERENCE
                               </p>
                             </div>
                           </div>
                           <button 
                             onClick={(e) => { e.stopPropagation(); removeFile(); }}
-                            className="p-2 text-[#A8BDB9] hover:text-red-400 rounded hover:bg-red-400/10 transition-colors border border-transparent hover:border-red-400/30"
+                            className="p-1.5 text-[#607874] hover:text-red-400 rounded hover:bg-red-400/10 transition-colors border border-transparent hover:border-red-400/30 ml-2"
                           >
                             <X className="w-4 h-4" />
                           </button>
                         </div>
 
-                        <div className="relative w-full flex-1 rounded overflow-hidden border border-[rgba(32,220,197,0.18)] bg-black group">
+                        <div className="relative w-full flex-1 rounded overflow-hidden border border-[rgba(32,220,197,0.18)] bg-black/80 group min-h-[220px]">
                           <img 
                             src={preview} 
                             alt="Sonar Preview" 
-                            className="absolute inset-0 w-full h-full object-contain"
+                            className="absolute inset-0 w-full h-full object-contain select-none"
                           />
-                          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(40,224,196,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(40,224,196,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
-                          <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)]" />
+                          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(32,220,197,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(32,220,197,0.03)_1px,transparent_1px)] bg-[size:32px_32px]" />
                           
-                          {/* Scanning Laser Line (Decorative) */}
-                          <div className="absolute top-0 left-0 w-full h-[2px] bg-[#20DCC5] shadow-[0_0_15px_#20DCC5] opacity-0 group-hover:opacity-50 animate-scan pointer-events-none" />
-
-                          <div className="absolute bottom-4 right-4 bg-black/80 px-3 py-1 font-mono text-[9px] text-[#20DCC5] tracking-widest border border-[#20DCC5]/30 backdrop-blur">
+                          <div className="absolute bottom-3 right-3 bg-black/80 px-2.5 py-1 font-mono text-[8.5px] text-[#20DCC5] tracking-widest border border-[#20DCC5]/30 backdrop-blur rounded uppercase">
                             RAW ACOUSTIC FEED
                           </div>
                         </div>
@@ -254,28 +274,31 @@ export default function NewScan() {
                 ) : (
                   <motion.div 
                     key="processing-ui"
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center justify-center flex-1 z-10"
+                    className="flex flex-col items-center justify-center flex-1 z-10 py-8"
                   >
-                    <div className="relative w-48 h-48 mb-12">
-                      <div className="absolute inset-0 border border-[rgba(32,220,197,0.18)] rounded-full" />
-                      <div className="absolute inset-4 border border-[#20DCC5]/30 rounded-full border-t-[#20DCC5] animate-spin" style={{ animationDuration: '3s' }} />
-                      <div className="absolute inset-8 border border-[#20DCC5]/20 rounded-full border-b-[#20DCC5] animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }} />
-                      <div className="absolute inset-12 border border-[#20DCC5]/10 rounded-full" style={{ background: 'conic-gradient(from 0deg, transparent 70%, rgba(0, 240, 255, 0.4) 100%)', animation: 'spin 1.5s linear infinite' }} />
+                    <div className="relative w-36 h-36 mb-8">
+                      <div className="absolute inset-0 border border-[rgba(32,220,197,0.20)] rounded-full" />
+                      <div className="absolute inset-3 border border-[#20DCC5]/30 rounded-full border-t-[#20DCC5] animate-spin" style={{ animationDuration: '2.5s' }} />
+                      <div className="absolute inset-6 border border-[#20DCC5]/20 rounded-full border-b-[#20DCC5] animate-spin" style={{ animationDuration: '1.8s', animationDirection: 'reverse' }} />
                       
                       <div className="absolute inset-0 flex items-center justify-center text-[#20DCC5]">
-                        <Radar className="w-12 h-12 animate-pulse" />
+                        <Radar className="w-8 h-8 animate-pulse" />
                       </div>
                     </div>
                     
-                    <h2 className="text-2xl font-bold tracking-[0.3em] text-[#F2F7F5] mb-10 uppercase drop-shadow-[0_0_10px_rgba(40,224,196,0.8)]">EXECUTING INTELLIGENCE PROTOCOL</h2>
+                    <h2 className="text-lg font-bold font-mono tracking-[0.25em] text-[#F2F7F5] mb-8 uppercase text-center">
+                      EXECUTING INTELLIGENCE PIPELINE
+                    </h2>
                     
-                    <div className="w-full max-w-md space-y-6 font-mono text-[10px] tracking-[0.2em] uppercase">
-                      <ProcessStep active={processState >= 1} done={processState > 1} text="TRANSMITTING SECURE PAYLOAD" />
-                      <ProcessStep active={processState >= 2} done={processState > 2} text="YOLO11N NEURAL INFERENCE ENGINE" />
-                      <ProcessStep active={processState >= 3} done={processState > 3} text="HEURISTIC RISK CALCULATION" />
-                      <ProcessStep active={processState >= 4} done={processState > 4} text="DATABASE SYNCHRONIZATION" />
+                    <div className="w-full max-w-sm space-y-3.5 font-mono text-[9.5px] tracking-wider uppercase">
+                      <ProcessStep active={processState >= 1} done={processState > 1} text="1. PAYLOAD TRANSMISSION & DECODE" />
+                      <ProcessStep active={processState >= 2} done={processState > 2} text="2. YOLO11n NEURAL DETECTION" />
+                      <ProcessStep active={processState >= 3} done={processState > 3} text="3. ACOUSTIC EVIDENCE & CONTRAST" />
+                      <ProcessStep active={processState >= 4} done={processState > 4} text="4. UNCERTAINTY & RISK EVALUATION" />
+                      <ProcessStep active={processState >= 5} done={processState > 5} text="5. MULTI-SIGNAL FUSION TRIAGE" />
+                      <ProcessStep active={processState >= 6} done={processState > 6} text="6. MISSION ARCHIVE PERSISTENCE" />
                     </div>
                   </motion.div>
                 )}
@@ -287,64 +310,76 @@ export default function NewScan() {
         {/* RIGHT COLUMN: Controls & Info */}
         <motion.div variants={item} className="lg:col-span-4 flex flex-col gap-6">
           
-          <div className="bg-[rgba(4,25,27,0.68)] backdrop-blur-[6px] border border-[rgba(32,220,197,0.18)] rounded flex flex-col overflow-hidden">
-            <div className="p-4 border-b border-[rgba(32,220,197,0.18)] bg-black/40 flex justify-between items-center">
-              <h3 className="text-[10px] font-mono tracking-widest text-[#F2F7F5] uppercase flex items-center gap-2">
-                <Zap className="w-3 h-3 text-[#20DCC5]" /> EXECUTION PROTOCOL
+          <GlassPanel className="p-0 overflow-hidden">
+            <div className="p-3.5 border-b border-[rgba(32,220,197,0.18)] bg-black/40 flex justify-between items-center">
+              <h3 className="text-[10px] font-mono font-bold tracking-widest text-[#F2F7F5] uppercase flex items-center gap-2">
+                <Zap className="w-3.5 h-3.5 text-[#20DCC5]" /> EXECUTION CONTROLS
               </h3>
             </div>
             
-            <div className="p-6 space-y-6">
-              <p className="text-xs text-[#607874] font-mono tracking-widest uppercase leading-relaxed">
-                Upload raw sonar imagery. The AI pipeline will extract targets, calculate confidence scores, and determine threat classifications via the risk engine.
+            <div className="p-5 space-y-5">
+              <p className="text-[9.5px] text-[#A8BDB9] font-mono tracking-wider leading-relaxed">
+                Submit side-scan sonar image payload to execute the 8-stage intelligence pipeline: neural detection, acoustic corroboration, uncertainty analysis, risk engine, and fusion triage.
               </p>
               
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-[10px] font-mono tracking-widest uppercase">
-                  <CheckCircle className="w-4 h-4 text-[#20DCC5]" /> <span className="text-[#A8BDB9]">JPEG / PNG SUPPORTED</span>
+              <div className="space-y-2.5 border-t border-[rgba(32,220,197,0.12)] pt-4">
+                <div className="flex items-center gap-2.5 text-[9px] font-mono tracking-wider uppercase text-[#A8BDB9]">
+                  <CheckCircle className="w-3.5 h-3.5 text-[#20DCC5] flex-shrink-0" />
+                  <span>JPG / PNG / JPEG FORMATS</span>
                 </div>
-                <div className="flex items-center gap-3 text-[10px] font-mono tracking-widest uppercase">
-                  <CheckCircle className="w-4 h-4 text-[#20DCC5]" /> <span className="text-[#A8BDB9]">640x640 NATIVE RESOLUTION</span>
+                <div className="flex items-center gap-2.5 text-[9px] font-mono tracking-wider uppercase text-[#A8BDB9]">
+                  <CheckCircle className="w-3.5 h-3.5 text-[#20DCC5] flex-shrink-0" />
+                  <span>640×640 RESOLUTION NORMALIZED</span>
                 </div>
-                <div className="flex items-center gap-3 text-[10px] font-mono tracking-widest uppercase">
-                  <CheckCircle className="w-4 h-4 text-[#20DCC5]" /> <span className="text-[#A8BDB9]">CUDA ACCELERATION</span>
+                <div className="flex items-center gap-2.5 text-[9px] font-mono tracking-wider uppercase text-[#A8BDB9]">
+                  <CheckCircle className="w-3.5 h-3.5 text-[#20DCC5] flex-shrink-0" />
+                  <span>PHYSICS-GROUNDED EVIDENCE</span>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-[rgba(32,220,197,0.18)]">
+              <div className="pt-2">
                 <GlowButton 
                   primary 
                   onClick={triggerAnalysis} 
                   disabled={!file || processing}
-                  className={`w-full py-4 flex items-center justify-center gap-3 transition-all ${!file || processing ? 'opacity-50 cursor-not-allowed grayscale' : ''}`}
+                  className="w-full py-3 flex items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase"
                 >
                   <Cpu className="w-4 h-4" />
-                  <span className="tracking-[0.3em] font-bold text-xs uppercase">ANALYZE SCAN</span>
+                  <span>EXECUTE INFERENCE</span>
                   <ChevronRight className="w-4 h-4" />
                 </GlowButton>
               </div>
             </div>
-          </div>
+          </GlassPanel>
 
-          <div className="bg-[rgba(4,25,27,0.68)] backdrop-blur-[6px] border border-[rgba(32,220,197,0.18)] rounded p-5 flex-1">
-            <h3 className="text-[10px] font-mono tracking-widest text-[#A8BDB9] uppercase mb-4 border-b border-[rgba(32,220,197,0.18)] pb-2">
-              PIPELINE STATUS
+          {/* Architecture Pipeline Specs */}
+          <GlassPanel className="p-4 flex-1">
+            <h3 className="text-[10px] font-mono font-bold tracking-widest text-[#A8BDB9] uppercase mb-3 border-b border-[rgba(32,220,197,0.15)] pb-2 flex items-center gap-2">
+              <Layers className="w-3.5 h-3.5 text-[#20DCC5]" /> ACTIVE PIPELINE STACK
             </h3>
-            <div className="space-y-4 font-mono text-[9px] tracking-widest uppercase">
+            <div className="space-y-2.5 font-mono text-[8.5px] uppercase tracking-wider">
               <div className="flex justify-between items-center">
-                <span className="text-[#607874]">DATABASE CONNECTION</span>
-                <span className="text-[#20DCC5] font-bold">ONLINE</span>
+                <span className="text-[#607874]">1. DETECTOR</span>
+                <span className="text-[#20DCC5] font-bold">YOLO11n (4 Classes)</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#607874]">MODEL INTEGRITY</span>
-                <span className="text-[#20DCC5] font-bold">VERIFIED</span>
+                <span className="text-[#607874]">2. EVIDENCE</span>
+                <span className="text-[#20DCC5] font-bold">TBCR + Sobel Energy</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[#607874]">LAST SYNC</span>
-                <span className="text-[#F2F7F5]">{new Date().toLocaleTimeString()}</span>
+                <span className="text-[#607874]">3. UNCERTAINTY</span>
+                <span className="text-[#D6A84F] font-bold">4-Quadrant Epistemic</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#607874]">4. RISK</span>
+                <span className="text-[#D6A84F] font-bold">HEURISTIC V2</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#607874]">5. FUSION</span>
+                <span className="text-[#20DCC5] font-bold">Priority Triage</span>
               </div>
             </div>
-          </div>
+          </GlassPanel>
 
         </motion.div>
       </div>
@@ -355,8 +390,8 @@ export default function NewScan() {
 function ProcessStep({ active, done, text }) {
   if (!active) {
     return (
-      <div className="flex items-center gap-5 text-[#0F6F70] opacity-50">
-        <div className="w-5 h-5 rounded-full border border-[rgba(32,220,197,0.18)]" />
+      <div className="flex items-center gap-3 text-[#607874] opacity-50">
+        <div className="w-4 h-4 rounded-full border border-[rgba(32,220,197,0.18)] flex-shrink-0" />
         <span>{text}</span>
       </div>
     );
@@ -364,19 +399,19 @@ function ProcessStep({ active, done, text }) {
   
   if (done) {
     return (
-      <div className="flex items-center gap-5 text-emerald-400">
-        <CheckCircle className="w-5 h-5" />
-        <span className="text-[#F2F7F5]">{text}</span>
+      <div className="flex items-center gap-3 text-emerald-400">
+        <CheckCircle className="w-4 h-4 flex-shrink-0" />
+        <span className="text-[#F2F7F5] font-semibold">{text}</span>
       </div>
     );
   }
   
   return (
-    <div className="flex items-center gap-5 text-[#20DCC5]">
-      <div className="w-5 h-5 border border-[#20DCC5] rounded-full flex items-center justify-center">
-        <div className="w-2.5 h-2.5 bg-[#20DCC5] rounded-full animate-pulse" />
+    <div className="flex items-center gap-3 text-[#20DCC5]">
+      <div className="w-4 h-4 border border-[#20DCC5] rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="w-2 h-2 bg-[#20DCC5] rounded-full animate-pulse" />
       </div>
-      <span className="animate-pulse shadow-[#20DCC5] text-[#F2F7F5] font-bold">{text}...</span>
+      <span className="text-[#F2F7F5] font-bold">{text}...</span>
     </div>
   );
 }
